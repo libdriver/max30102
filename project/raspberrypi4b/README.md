@@ -30,13 +30,13 @@ make
 
 ​           -p       show max30102 pin connections of the current board.
 
-​           -t (reg | read <times>)
+​           -t (reg | fifo <times>)
 
 ​           -t reg        run max30102 register test.
 
-​           -t read <times>        run max30102 read test. times means test times. 
+​           -t fifo <times>        run max30102 fifo test. times means test times. 
 
-​           -c read <times>        run max30102 read function. times means read times. 
+​           -c fifo <times>        run max30102 fifo function. times means read times. 
 
 #### 3.2 command example
 
@@ -218,7 +218,7 @@ max30102: finish register test.
 ```
 
 ```shell
-./max30102 -t read 3
+./max30102 -t fifo 3
 
 max30102: chip is Maxim Integrated MAX30102.
 max30102: manufacturer is Maxim Integrated.
@@ -229,17 +229,17 @@ max30102: max supply voltage is 2.0V.
 max30102: max current is 20.00mA.
 max30102: max temperature is 85.0C.
 max30102: min temperature is -40.0C.
-max30102: start read test.
+max30102: start fifo test.
 max30102: irq die temp rdy.
 max30102: temperature is 30.3750C.
 max30102: irq fifo full with 17.
 max30102: irq fifo full with 17.
 max30102: irq fifo full with 17.
-max30102: finish read test.
+max30102: finish fifo test.
 ```
 
 ```shell
-./max30102 -c read 3
+./max30102 -c fifo 3
 
 max30102: irq fifo full with 17.
 max30102: 1/3.
@@ -253,16 +253,16 @@ max30102: 3/3.
 ./max30102 -h
 
 max30102 -i
-	show max30102 chip and driver information.
+        show max30102 chip and driver information.
 max30102 -h
-	show max30102 help.
+        show max30102 help.
 max30102 -p
-	show max30102 pin connections of the current board.
+        show max30102 pin connections of the current board.
 max30102 -t reg
-	run max30102 register test.
-max30102 -t read <times>
-	run max30102 read test.times means test times.
-max30102 -c read <times>
-	run max30102 read function.times means read times.
+        run max30102 register test.
+max30102 -t fifo <times>
+        run max30102 fifo test.times means test times.
+max30102 -c fifo <times>
+        run max30102 fifo function.times means read times.
 ```
 

@@ -331,7 +331,7 @@ uint8_t max30102_deinit(max30102_handle_t *handle);
 /**
  * @brief         read the data
  * @param[in]     *handle points to a max30102 handle structure
- * @param[out]    *raw_red points to a read raw data buffer
+ * @param[out]    *raw_red points to a red raw data buffer
  * @param[out]    *raw_ir points to a ir raw data buffer
  * @param[in,out] *len points to a length buffer
  * @return        status code
@@ -340,6 +340,7 @@ uint8_t max30102_deinit(max30102_handle_t *handle);
  *                - 2 handle is NULL
  *                - 3 handle is not initialized
  *                - 4 fifo overrun
+ *                - 5 mode is invalid
  * @note          none
  */
 uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *raw_ir, uint8_t *len);

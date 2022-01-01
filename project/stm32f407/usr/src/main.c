@@ -36,7 +36,7 @@
 
 #include "driver_max30102_fifo.h"
 #include "driver_max30102_register_test.h"
-#include "driver_max30102_read_test.h"
+#include "driver_max30102_fifo_test.h"
 #include "shell.h"
 #include "clock.h"
 #include "delay.h"
@@ -196,8 +196,8 @@ uint8_t max30102(uint8_t argc, char **argv)
             max30102_interface_debug_print("max30102 -h\n\tshow max30102 help.\n");
             max30102_interface_debug_print("max30102 -p\n\tshow max30102 pin connections of the current board.\n");
             max30102_interface_debug_print("max30102 -t reg\n\trun max30102 register test.\n");
-            max30102_interface_debug_print("max30102 -t read <times>\n\trun max30102 read test.times means test times.\n");
-            max30102_interface_debug_print("max30102 -c read <times>\n\trun max30102 read function.times means read times.\n");
+            max30102_interface_debug_print("max30102 -t fifo <times>\n\trun max30102 fifo test.times means test times.\n");
+            max30102_interface_debug_print("max30102 -c fifo <times>\n\trun max30102 fifo function.times means read times.\n");
             
             return 0;
         }
@@ -244,7 +244,7 @@ uint8_t max30102(uint8_t argc, char **argv)
         if (strcmp("-t", argv[1]) == 0)
         {
             /* reg test */
-            if (strcmp("read", argv[2]) == 0)
+            if (strcmp("fifo", argv[2]) == 0)
             {
                 volatile uint8_t res;
                 
@@ -258,7 +258,7 @@ uint8_t max30102(uint8_t argc, char **argv)
                     return 1;
                 }
                 
-                res = max30102_read_test(atoi(argv[3]));
+                res = max30102_fifo_test(atoi(argv[3]));
                 if (res)
                 {
                     gpio_interrupt_deinit();
@@ -283,7 +283,7 @@ uint8_t max30102(uint8_t argc, char **argv)
         else if (strcmp("-c", argv[1]) == 0)
         {
             /* reg test */
-            if (strcmp("read", argv[2]) == 0)
+            if (strcmp("fifo", argv[2]) == 0)
             {
                 volatile uint8_t res;
                 volatile uint32_t timeout;

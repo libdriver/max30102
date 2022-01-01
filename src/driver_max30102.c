@@ -147,19 +147,6 @@ uint8_t max30102_init(max30102_handle_t *handle)
         
         return 1;                                                                                           /* return error */
     }
-    res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_PART_ID, (uint8_t *)&part_id, 1);                 /* read part id */
-    if (res)                                                                                                /* check result */
-    {
-        handle->debug_print("max30102: read part id failed.\n");                                            /* read part id failed */
-       
-        return 4;                                                                                           /* return error */
-    }
-    if (part_id != 0x15)                                                                                    /* check part id */
-    {
-        handle->debug_print("max30102: id is invalid.\n");                                                  /* id is invalid */
-       
-        return 4;                                                                                           /* return error */
-    }
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);                /* read mode config */
     if (res)                                                                                                /* check result */
     {
@@ -177,6 +164,19 @@ uint8_t max30102_init(max30102_handle_t *handle)
         return 5;                                                                                           /* return error */
     }
     handle->delay_ms(10);                                                                                   /* delay 10 ms */
+    res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_PART_ID, (uint8_t *)&part_id, 1);                 /* read part id */
+    if (res)                                                                                                /* check result */
+    {
+        handle->debug_print("max30102: read part id failed.\n");                                            /* read part id failed */
+       
+        return 4;                                                                                           /* return error */
+    }
+    if (part_id != 0x15)                                                                                    /* check part id */
+    {
+        handle->debug_print("max30102: id is invalid.\n");                                                  /* id is invalid */
+       
+        return 4;                                                                                           /* return error */
+    }
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);                /* read mode config */
     if (res)                                                                                                /* check result */
     {
@@ -372,7 +372,7 @@ uint8_t max30102_irq_handler(max30102_handle_t *handle)
 /**
  * @brief         read the data
  * @param[in]     *handle points to a max30102 handle structure
- * @param[out]    *raw_red points to a read raw data buffer
+ * @param[out]    *raw_red points to a red raw data buffer
  * @param[out]    *raw_ir points to a ir raw data buffer
  * @param[in,out] *len points to a length buffer
  * @return        status code
@@ -381,12 +381,15 @@ uint8_t max30102_irq_handler(max30102_handle_t *handle)
  *                - 2 handle is NULL
  *                - 3 handle is not initialized
  *                - 4 fifo overrun
+ *                - 5 mode is invalid
  * @note          none
  */
 uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *raw_ir, uint8_t *len)
 {
     volatile uint8_t res;
     volatile uint8_t prev;
+    volatile uint8_t mode;
+    volatile uint8_t k;
     volatile uint8_t read_point;
     volatile uint8_t write_point;
     volatile uint8_t l;
@@ -441,7 +444,34 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
         l = 32 + write_point - read_point;                                                                        /* get length */
     }
     *len = ((*len) > l) ? l : (*len);                                                                             /* set read length */
-    res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_DATA_REGISTER, handle->buf, (*len) * 6);           /* read fifo read point */
+    res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);                      /* read mode config */
+    if (res)                                                                                                      /* check result */
+    {
+        handle->debug_print("max30102: read mode config failed.\n");                                              /* read mode config failed */
+       
+        return 1;                                                                                                 /* return error */
+    }
+    mode = (max30102_mode_t)(prev & 0x7);                                                                         /* get mode */
+    if (mode == MAX30102_MODE_HEART_RATE)                                                                         /* check heart rate mode */
+    {
+        k = 3;                                                                                                    /* 3 */
+    }
+    else if (mode == MAX30102_MODE_SPO2)                                                                          /* check spo2 mode*/
+    {
+        k = 6;                                                                                                    /* 6 */
+    }
+    else if (mode == MAX30102_MODE_MULTI_LED)                                                                     /* check multi led mode */
+    {
+        k = 6;                                                                                                    /* 6 */
+    }
+    else
+    {
+        handle->debug_print("max30105: mode is invalid.\n");                                                      /* mode is invalid */
+       
+        return 5;                                                                                                 /* return error */
+    }
+    
+    res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_DATA_REGISTER, handle->buf, (*len) * k);           /* read fifo read point */
     if (res)                                                                                                      /* check result */
     {
         handle->debug_print("max30102: read fifo data register failed.\n");                                       /* read fifo data register failed */
@@ -474,14 +504,24 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
     }
     for (i = 0; i < (*len); i++)                                                                                  /* copy data */
     {
-        raw_red[i] = ((uint32_t)handle->buf[i * 6 + 0] << 16) |                                                   /* get raw read data */
-                     ((uint32_t)handle->buf[i * 6 + 1] << 8) |                                                    /* get raw read data */
-                     ((uint32_t)handle->buf[i * 6 + 2] << 0);                                                     /* get raw read data */
-        raw_red[i] = raw_red[i] >> bit;                                                                           /* right shift bit */
-        raw_ir[i] = ((uint32_t)handle->buf[i * 6 + 3] << 16) |                                                    /* get raw ir data */
-                    ((uint32_t)handle->buf[i * 6 + 4] << 8) |                                                     /* get raw ir data */
-                    ((uint32_t)handle->buf[i * 6 + 5] << 0);                                                      /* get raw ir data */
-        raw_ir[i] = raw_ir[i] >> bit;                                                                             /* right shift bit */
+        if (mode == MAX30102_MODE_HEART_RATE)                                                                     /* check red mode */
+        {
+            raw_red[i] = ((uint32_t)handle->buf[i * 3 + 0] << 16) |                                               /* get raw read data */
+                         ((uint32_t)handle->buf[i * 3 + 1] << 8) |                                                /* get raw read data */
+                         ((uint32_t)handle->buf[i * 3 + 2] << 0);                                                 /* get raw read data */
+            raw_red[i] = raw_red[i] >> bit;                                                                       /* right shift bit */
+        }
+        else
+        {
+            raw_red[i] = ((uint32_t)handle->buf[i * 6 + 0] << 16) |                                               /* get raw read data */
+                         ((uint32_t)handle->buf[i * 6 + 1] << 8) |                                                /* get raw read data */
+                         ((uint32_t)handle->buf[i * 6 + 2] << 0);                                                 /* get raw read data */
+            raw_red[i] = raw_red[i] >> bit;                                                                       /* right shift bit */
+            raw_ir[i] = ((uint32_t)handle->buf[i * 6 + 3] << 16) |                                                /* get raw ir data */
+                        ((uint32_t)handle->buf[i * 6 + 4] << 8) |                                                 /* get raw ir data */
+                        ((uint32_t)handle->buf[i * 6 + 5] << 0);                                                  /* get raw ir data */
+            raw_ir[i] = raw_ir[i] >> bit;                                                                         /* right shift bit */
+        }
     }
     
     return r;                                                                                                     /* success return 0 */

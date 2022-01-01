@@ -420,9 +420,9 @@
               <FilePath>..\..\..\test\driver_max30102_register_test.c</FilePath>
             </File>
             <File>
-              <FileName>driver_max30102_read_test.c</FileName>
+              <FileName>driver_max30102_fifo_test.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\test\driver_max30102_read_test.c</FilePath>
+              <FilePath>..\..\..\test\driver_max30102_fifo_test.c</FilePath>
             </File>
           </Files>
         </Group>

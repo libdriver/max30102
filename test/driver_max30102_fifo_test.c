@@ -21,8 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE. 
  *
- * @file      driver_max30102_read_test.c
- * @brief     driver max30102 read test source file
+ * @file      driver_max30102_fifo_test.c
+ * @brief     driver max30102 fifo test source file
  * @version   1.0.0
  * @author    Shifeng Li
  * @date      2021-11-13
@@ -34,11 +34,11 @@
  * </table>
  */
 
-#include "driver_max30102_read_test.h"
+#include "driver_max30102_fifo_test.h"
 
 static max30102_handle_t gs_handle;        /**< max30102 handle */
 static uint8_t gs_flag;                    /**< flag */
-static uint32_t gs_raw_red[32];            /**< raw read buffer */
+static uint32_t gs_raw_red[32];            /**< raw red buffer */
 static uint32_t gs_raw_ir[32];             /**< raw ir buffer */
 
 /**
@@ -126,14 +126,14 @@ static uint8_t _max30102_interface_test_receive_callback(uint8_t type)
 }
 
 /**
- * @brief     read test
+ * @brief     fifo test
  * @param[in] times is the test times
  * @return    status code
  *            - 0 success
  *            - 1 test failed
  * @note      none
  */
-uint8_t max30102_read_test(uint32_t times)
+uint8_t max30102_fifo_test(uint32_t times)
 {
     volatile uint8_t res;
     volatile uint32_t i;
@@ -176,7 +176,7 @@ uint8_t max30102_read_test(uint32_t times)
     }
     
     /* start read test */
-    max30102_interface_debug_print("max30102: start read test.\n");
+    max30102_interface_debug_print("max30102: start fifo test.\n");
     
     /* init the max30102 */
     res = max30102_init(&gs_handle);
@@ -448,7 +448,7 @@ uint8_t max30102_read_test(uint32_t times)
     }
     
     /* finish read test */
-    max30102_interface_debug_print("max30102: finish read test.\n");
+    max30102_interface_debug_print("max30102: finish fifo test.\n");
     max30102_deinit(&gs_handle);
     
     return 0;

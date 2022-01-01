@@ -21,8 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE. 
  *
- * @file      driver_max30102_read_test.h
- * @brief     driver max30102 read test header file
+ * @file      driver_max30102_fifo_test.h
+ * @brief     driver max30102 fifo test header file
  * @version   1.0.0
  * @author    Shifeng Li
  * @date      2021-11-13
@@ -34,8 +34,8 @@
  * </table>
  */
 
-#ifndef _DRIVER_MAX30102_READ_TEST_H_
-#define _DRIVER_MAX30102_READ_TEST_H_
+#ifndef _DRIVER_MAX30102_FIFO_TEST_H_
+#define _DRIVER_MAX30102_FIFO_TEST_H_
 
 #include "driver_max30102_interface.h"
 
@@ -58,14 +58,14 @@ extern "C"{
 uint8_t max30102_interface_fifo_test_irq_handler(void);
 
 /**
- * @brief     read test
+ * @brief     fifo test
  * @param[in] times is the test times
  * @return    status code
  *            - 0 success
  *            - 1 test failed
  * @note      none
  */
-uint8_t max30102_read_test(uint32_t times);
+uint8_t max30102_fifo_test(uint32_t times);
 
 /**
  * @}
