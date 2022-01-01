@@ -147,6 +147,19 @@ uint8_t max30102_init(max30102_handle_t *handle)
         
         return 1;                                                                                           /* return error */
     }
+    res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_PART_ID, (uint8_t *)&part_id, 1);                 /* read part id */
+    if (res)                                                                                                /* check result */
+    {
+        handle->debug_print("max30102: read part id failed.\n");                                            /* read part id failed */
+       
+        return 4;                                                                                           /* return error */
+    }
+    if (part_id != 0x15)                                                                                    /* check part id */
+    {
+        handle->debug_print("max30102: id is invalid.\n");                                                  /* id is invalid */
+       
+        return 4;                                                                                           /* return error */
+    }
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);                /* read mode config */
     if (res)                                                                                                /* check result */
     {
@@ -164,19 +177,6 @@ uint8_t max30102_init(max30102_handle_t *handle)
         return 5;                                                                                           /* return error */
     }
     handle->delay_ms(10);                                                                                   /* delay 10 ms */
-    res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_PART_ID, (uint8_t *)&part_id, 1);                 /* read part id */
-    if (res)                                                                                                /* check result */
-    {
-        handle->debug_print("max30102: read part id failed.\n");                                            /* read part id failed */
-       
-        return 4;                                                                                           /* return error */
-    }
-    if (part_id != 0x15)                                                                                    /* check part id */
-    {
-        handle->debug_print("max30102: id is invalid.\n");                                                  /* id is invalid */
-       
-        return 4;                                                                                           /* return error */
-    }
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);                /* read mode config */
     if (res)                                                                                                /* check result */
     {

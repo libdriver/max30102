@@ -44,7 +44,7 @@
  * @brief global var definition
  */
 static uint8_t gs_flag;                    /**< flag */
-static uint32_t gs_raw_red[32];            /**< raw read buffer */
+static uint32_t gs_raw_red[32];            /**< raw red buffer */
 static uint32_t gs_raw_ir[32];             /**< raw ir buffer */
 uint8_t (*g_gpio_irq)(void) = NULL;        /**< irq function address */
 
