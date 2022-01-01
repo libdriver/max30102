@@ -506,16 +506,16 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
     {
         if (mode == MAX30102_MODE_HEART_RATE)                                                                     /* check red mode */
         {
-            raw_red[i] = ((uint32_t)handle->buf[i * 3 + 0] << 16) |                                               /* get raw read data */
-                         ((uint32_t)handle->buf[i * 3 + 1] << 8) |                                                /* get raw read data */
-                         ((uint32_t)handle->buf[i * 3 + 2] << 0);                                                 /* get raw read data */
+            raw_red[i] = ((uint32_t)handle->buf[i * 3 + 0] << 16) |                                               /* get raw red data */
+                         ((uint32_t)handle->buf[i * 3 + 1] << 8) |                                                /* get raw red data */
+                         ((uint32_t)handle->buf[i * 3 + 2] << 0);                                                 /* get raw red data */
             raw_red[i] = raw_red[i] >> bit;                                                                       /* right shift bit */
         }
         else
         {
-            raw_red[i] = ((uint32_t)handle->buf[i * 6 + 0] << 16) |                                               /* get raw read data */
-                         ((uint32_t)handle->buf[i * 6 + 1] << 8) |                                                /* get raw read data */
-                         ((uint32_t)handle->buf[i * 6 + 2] << 0);                                                 /* get raw read data */
+            raw_red[i] = ((uint32_t)handle->buf[i * 6 + 0] << 16) |                                               /* get raw red data */
+                         ((uint32_t)handle->buf[i * 6 + 1] << 8) |                                                /* get raw red data */
+                         ((uint32_t)handle->buf[i * 6 + 2] << 0);                                                 /* get raw red data */
             raw_red[i] = raw_red[i] >> bit;                                                                       /* right shift bit */
             raw_ir[i] = ((uint32_t)handle->buf[i * 6 + 3] << 16) |                                                /* get raw ir data */
                         ((uint32_t)handle->buf[i * 6 + 4] << 8) |                                                 /* get raw ir data */
