@@ -1,10 +1,12 @@
+[English](/README.md) | [ 简体中文](/README_zh-Hans.md) | [繁體中文](/README_zh-Hant.md)
+
 <div align=center>
 <img src="/doc/image/logo.png"/>
 </div>
 
 ## LibDriver MAX30102
 
-[English](/README.md) | [ 简体中文](/README_zh-Hans.md) | [繁體中文](/README_zh-Hant.md)
+[![API](https://img.shields.io/badge/api-reference-blue)](https://www.libdriver.com/docs/max30102/index.html) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](/LICENSE)
 
 MAX30102是一個集成的脈搏血氧儀和心率監測儀生物傳感器的模塊。它集成了多個LED、光電檢測器、光器件，以及帶環境光抑制的低噪聲電子電路。 MAX30102提供完備的系統方案，使移動及可穿戴設備的設計過程變得輕鬆。 MAX30102採用一個1.8V電源和一個獨立的3.3V用於內部LED的電源，標準的I2C兼容的通信接口。可通過軟件關斷模塊，待機電流為零，實現電源始終維持供電狀態。 MAX30102可用於穿戴設備，健身輔助設備，智能手機和平板電腦等。
 

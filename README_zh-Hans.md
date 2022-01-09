@@ -1,10 +1,12 @@
+[English](/README.md) | [ 简体中文](/README_zh-Hans.md) | [繁體中文](/README_zh-Hant.md)
+
 <div align=center>
 <img src="/doc/image/logo.png"/>
 </div>
 
 ## LibDriver MAX30102
 
-[English](/README.md) | [ 简体中文](/README_zh-Hans.md) | [繁體中文](/README_zh-Hant.md)
+[![API](https://img.shields.io/badge/api-reference-blue)](https://www.libdriver.com/docs/max30102/index.html) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](/LICENSE)
 
 MAX30102是一个集成的脉搏血氧仪和心率监测仪生物传感器的模块。它集成了多个LED、光电检测器、光器件，以及带环境光抑制的低噪声电子电路。MAX30102提供完备的系统方案，使移动及可穿戴设备的设计过程变得轻松。MAX30102采用一个1.8V电源和一个独立的3.3V用于内部LED的电源，标准的I2C兼容的通信接口。可通过软件关断模块，待机电流为零，实现电源始终维持供电状态。MAX30102可用于穿戴设备，健身辅助设备，智能手机和平板电脑等。
 
