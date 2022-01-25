@@ -48,7 +48,7 @@ static uint32_t gs_raw_ir[32];             /**< raw ir buffer */
  *         - 1 run failed
  * @note   none
  */
-uint8_t max30102_interface_fifo_test_irq_handler(void)
+uint8_t max30102_fifo_test_irq_handler(void)
 {
     /* run irq handler */
     if (max30102_irq_handler(&gs_handle))

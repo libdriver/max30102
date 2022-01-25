@@ -45,7 +45,7 @@ static max30102_handle_t gs_handle;        /**< max30102 handle */
  *         - 1 run failed
  * @note   none
  */
-uint8_t max30102_interface_fifo_irq_handler(void)
+uint8_t max30102_fifo_irq_handler(void)
 {
     /* run irq handler */
     if (max30102_irq_handler(&gs_handle))

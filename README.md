@@ -117,7 +117,7 @@ uint8_t max30102_receive_callback(uint8_t type)
 ...
     
 /* set gpio */
-g_gpio_irq = max30102_interface_fifo_irq_handler;
+g_gpio_irq = max30102_fifo_irq_handler;
 res = gpio_interrupt_init();
 if (res)
 {
