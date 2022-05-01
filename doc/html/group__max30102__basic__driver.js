@@ -2,7 +2,7 @@ var group__max30102__basic__driver =
 [
     [ "max30102_handle_s", "structmax30102__handle__s.html", [
       [ "buf", "structmax30102__handle__s.html#a986eda6059c18f669fb016e5c9516b9a", null ],
-      [ "debug_print", "structmax30102__handle__s.html#a75f9f50c23e87e9407f9ec4e34bb42f2", null ],
+      [ "debug_print", "structmax30102__handle__s.html#a769d5b3a6c14790a0e126e8fe70b384b", null ],
       [ "delay_ms", "structmax30102__handle__s.html#a406c9433252b7366de417b7a60915c81", null ],
       [ "finished_flag", "structmax30102__handle__s.html#a659b449a1ede027fd2c85ed769cc844e", null ],
       [ "iic_deinit", "structmax30102__handle__s.html#af6963bbad902ca6e43942b48c07986c3", null ],
@@ -11,7 +11,7 @@ var group__max30102__basic__driver =
       [ "iic_write", "structmax30102__handle__s.html#adca3ee7a793bbf510d5267daf0fcf1c5", null ],
       [ "inited", "structmax30102__handle__s.html#a19bedf28d2b9748f6a62d9ae93f4e68f", null ],
       [ "raw", "structmax30102__handle__s.html#a7e76fa585608d265c17dcebead34e78f", null ],
-      [ "receive_callback", "structmax30102__handle__s.html#aa2f0ad453e9509af4703f1db48bb16e6", null ],
+      [ "receive_callback", "structmax30102__handle__s.html#a4a9a1af4e28aea769f6d9f02a02e07c3", null ],
       [ "temperature", "structmax30102__handle__s.html#afc1d28cfbce795d6ea954ebe725241f5", null ]
     ] ],
     [ "max30102_info_s", "structmax30102__info__s.html", [
@@ -101,7 +101,7 @@ var group__max30102__basic__driver =
     [ "max30102_get_fifo_sample_averaging", "group__max30102__basic__driver.html#ga4f6a68a980eb58f5fccb7a58c2ccaacf", null ],
     [ "max30102_get_fifo_write_pointer", "group__max30102__basic__driver.html#ga1b277cfbb44f12a65ea83a8a2bddd5cf", null ],
     [ "max30102_get_id", "group__max30102__basic__driver.html#gabea304416c1c6b7d1d1969b9ee533ad3", null ],
-    [ "max30102_get_interrupt", "group__max30102__basic__driver.html#ga4c61e7cf5c898694887d6d4f94db75c4", null ],
+    [ "max30102_get_interrupt", "group__max30102__basic__driver.html#ga22ba83c20fd71dee856c88f7fa37fd51", null ],
     [ "max30102_get_interrupt_status", "group__max30102__basic__driver.html#ga2d79875b7a567be48039c94eba57ef5b", null ],
     [ "max30102_get_led_ir_pulse_amplitude", "group__max30102__basic__driver.html#ga679d857c3c4f26919dce8a60c6635faa", null ],
     [ "max30102_get_led_red_pulse_amplitude", "group__max30102__basic__driver.html#ga34233256f4b705f097c33b2f944e1268", null ],
@@ -125,7 +125,7 @@ var group__max30102__basic__driver =
     [ "max30102_set_fifo_roll", "group__max30102__basic__driver.html#ga2202c0221574e735c748304dfab49388", null ],
     [ "max30102_set_fifo_sample_averaging", "group__max30102__basic__driver.html#ga386318efbca2fd43241c63aed27a6738", null ],
     [ "max30102_set_fifo_write_pointer", "group__max30102__basic__driver.html#gadb4cc81e07173e46ea4ed5d83e14daea", null ],
-    [ "max30102_set_interrupt", "group__max30102__basic__driver.html#gab55cd18d6568a10b03701e37df81ba1d", null ],
+    [ "max30102_set_interrupt", "group__max30102__basic__driver.html#ga9d84a848ee5039c0ffef09285ee3582e", null ],
     [ "max30102_set_led_ir_pulse_amplitude", "group__max30102__basic__driver.html#gab245d4383f42ebc8c7e8ec430306c8a3", null ],
     [ "max30102_set_led_red_pulse_amplitude", "group__max30102__basic__driver.html#ga45a9307bd662fb6549280d2f238f5852", null ],
     [ "max30102_set_mode", "group__max30102__basic__driver.html#ga50c029f26afb81f3c9999ff16950ea57", null ],

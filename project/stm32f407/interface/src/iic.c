@@ -41,7 +41,7 @@
  * @brief bit operate definition
  */
 #define BITBAND(addr, bitnum)    ((addr & 0xF0000000) + 0x2000000 + ((addr & 0xFFFFF) << 5) + (bitnum << 2)) 
-#define MEM_ADDR(addr)           *((volatile unsigned long *)(addr)) 
+#define MEM_ADDR(addr)           *((unsigned long *)(addr)) 
 #define BIT_ADDR(addr, bitnum)   MEM_ADDR(BITBAND(addr, bitnum))
 
 /**
@@ -135,7 +135,7 @@ static void _iic_stop(void)
  */
 static uint8_t _iic_wait_ack(void)
 {
-    volatile uint16_t uc_err_time = 0;
+    uint16_t uc_err_time = 0;
     
     SDA_IN();
     IIC_SDA = 1; 
@@ -199,7 +199,7 @@ static void _iic_nack(void)
  */
 static void _iic_send_byte(uint8_t txd)
 {
-    volatile uint8_t t;
+    uint8_t t;
     
     SDA_OUT();
     IIC_SCL = 0;
@@ -223,7 +223,7 @@ static void _iic_send_byte(uint8_t txd)
  */
 static uint8_t _iic_read_byte(uint8_t ack)
 {
-    volatile uint8_t i,receive = 0;
+    uint8_t i,receive = 0;
     
     SDA_IN();
     
@@ -294,7 +294,7 @@ uint8_t iic_sda_write(uint8_t value)
  */
 uint8_t iic_write_cmd(uint8_t addr, uint8_t *buf, uint16_t len)
 {
-    volatile uint16_t i; 
+    uint16_t i; 
     
     _iic_start();
     _iic_send_byte(addr);
@@ -332,7 +332,7 @@ uint8_t iic_write_cmd(uint8_t addr, uint8_t *buf, uint16_t len)
  */
 uint8_t iic_write(uint8_t addr, uint8_t reg, uint8_t *buf, uint16_t len)
 {
-    volatile uint16_t i; 
+    uint16_t i; 
   
     _iic_start();
     _iic_send_byte(addr);
@@ -377,7 +377,7 @@ uint8_t iic_write(uint8_t addr, uint8_t reg, uint8_t *buf, uint16_t len)
  */
 uint8_t iic_write_address16(uint8_t addr, uint16_t reg, uint8_t *buf, uint16_t len)
 {
-    volatile uint16_t i; 
+    uint16_t i; 
   
     _iic_start();
     _iic_send_byte(addr);

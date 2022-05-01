@@ -34,8 +34,8 @@
  * </table>
  */
 
-#ifndef _DRIVER_MAX30102_INTERFACE_H_
-#define _DRIVER_MAX30102_INTERFACE_H_
+#ifndef DRIVER_MAX30102_INTERFACE_H
+#define DRIVER_MAX30102_INTERFACE_H
 
 #include "driver_max30102.h"
 
@@ -104,20 +104,16 @@ void max30102_interface_delay_ms(uint32_t ms);
 /**
  * @brief     interface print format data
  * @param[in] fmt is the format data
- * @return    length of the send data
  * @note      none
  */
-uint16_t max30102_interface_debug_print(char *fmt, ...);
+void max30102_interface_debug_print(const char *const fmt, ...);
 
 /**
  * @brief     interface receive callback
  * @param[in] type is the irq type
- * @return    status code
- *            - 0 success
- *            - 1 run failed
  * @note      none
  */
-uint8_t max30102_interface_receive_callback(uint8_t type);
+void max30102_interface_receive_callback(uint8_t type);
 
 /**
  * @}

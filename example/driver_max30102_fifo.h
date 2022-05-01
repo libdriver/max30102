@@ -34,8 +34,8 @@
  * </table>
  */
 
-#ifndef _DRIVER_MAX30102_FIFO_H_
-#define _DRIVER_MAX30102_FIFO_H_
+#ifndef DRIVER_MAX30102_FIFO_H
+#define DRIVER_MAX30102_FIFO_H
 
 #include "driver_max30102_interface.h"
 
@@ -88,7 +88,7 @@ uint8_t max30102_fifo_irq_handler(void);
  *            - 1 init failed
  * @note      none
  */
-uint8_t max30102_fifo_init(uint8_t (*fifo_receive_callback)(uint8_t type));
+uint8_t max30102_fifo_init(void (*fifo_receive_callback)(uint8_t type));
 
 /**
  * @brief  fifo example deinit

@@ -34,8 +34,8 @@
  * </table>
  */
 
-#ifndef _DRIVER_MAX30102_FIFO_TEST_H_
-#define _DRIVER_MAX30102_FIFO_TEST_H_
+#ifndef DRIVER_MAX30102_FIFO_TEST_H
+#define DRIVER_MAX30102_FIFO_TEST_H
 
 #include "driver_max30102_interface.h"
 
