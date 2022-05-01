@@ -18,7 +18,7 @@ var driver__max30102__fifo_8h =
     [ "MAX30102_FIFO_DEFAULT_SPO2_ADC_RANGE", "group__max30102__example__driver.html#gacd3af2a773e5d623c360c4b9bfffd560", null ],
     [ "MAX30102_FIFO_DEFAULT_SPO2_SAMPLE_RATE", "group__max30102__example__driver.html#ga2d8606cb8a173b3f1cb72d693ea8e7d6", null ],
     [ "max30102_fifo_deinit", "group__max30102__example__driver.html#gae59a2fe2d66476955dee65d01842ff88", null ],
-    [ "max30102_fifo_init", "group__max30102__example__driver.html#ga3018186a379ed6152d980136af5d93d7", null ],
+    [ "max30102_fifo_init", "group__max30102__example__driver.html#ga6d70a1815b5514e1d303ec1820849fab", null ],
     [ "max30102_fifo_irq_handler", "group__max30102__example__driver.html#gac3e4aec5f730bcc03cef6c97654894a9", null ],
     [ "max30102_fifo_read", "group__max30102__example__driver.html#gaffa927d1cdd1bedb7eede097fb6d6b9e", null ]
 ];

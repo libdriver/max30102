@@ -92,9 +92,9 @@
  */
 uint8_t max30102_init(max30102_handle_t *handle)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
-    volatile uint8_t part_id;
+    uint8_t res;
+    uint8_t prev;
+    uint8_t part_id;
     
     if (handle == NULL)                                                                                     /* check handle */
     {
@@ -141,14 +141,14 @@ uint8_t max30102_init(max30102_handle_t *handle)
         return 3;                                                                                           /* return error */
     }
 
-    if (handle->iic_init())                                                                                 /* init iic */
+    if (handle->iic_init() != 0)                                                                            /* init iic */
     {
         handle->debug_print("max30102: iic init failed.\n");                                                /* iic init failed */
         
         return 1;                                                                                           /* return error */
     }
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_PART_ID, (uint8_t *)&part_id, 1);                 /* read part id */
-    if (res)                                                                                                /* check result */
+    if (res != 0)                                                                                           /* check result */
     {
         handle->debug_print("max30102: read part id failed.\n");                                            /* read part id failed */
        
@@ -161,7 +161,7 @@ uint8_t max30102_init(max30102_handle_t *handle)
         return 4;                                                                                           /* return error */
     }
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);                /* read mode config */
-    if (res)                                                                                                /* check result */
+    if (res != 0)                                                                                           /* check result */
     {
         handle->debug_print("max30102: read mode config failed.\n");                                        /* read mode config failed */
        
@@ -170,7 +170,7 @@ uint8_t max30102_init(max30102_handle_t *handle)
     prev &= ~(1 << 6);                                                                                      /* clear config */
     prev |= 1 << 6;                                                                                         /* set 1 */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);               /* write mode config */
-    if (res)                                                                                                /* check result */
+    if (res != 0)                                                                                           /* check result */
     {
         handle->debug_print("max30102: write mode config failed.\n");                                       /* write mode config failed */
        
@@ -178,13 +178,13 @@ uint8_t max30102_init(max30102_handle_t *handle)
     }
     handle->delay_ms(10);                                                                                   /* delay 10 ms */
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);                /* read mode config */
-    if (res)                                                                                                /* check result */
+    if (res != 0)                                                                                           /* check result */
     {
         handle->debug_print("max30102: read mode config failed.\n");                                        /* read mode config failed */
        
         return 5;                                                                                           /* return error */
     }
-    if (prev & (1 << 6))                                                                                    /* check result */
+    if ((prev & (1 << 6)) != 0)                                                                             /* check result */
     {
         handle->debug_print("max30102: reset failed.\n");                                                   /* reset failed */
        
@@ -192,21 +192,21 @@ uint8_t max30102_init(max30102_handle_t *handle)
     }
     prev = 0;                                                                                               /* set zero */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_FIFO_READ_POINTER, (uint8_t *)&prev, 1);         /* write fifo read pointer */
-    if (res)                                                                                                /* check result */
+    if (res != 0)                                                                                           /* check result */
     {
         handle->debug_print("max30102: wirte fifo read pointer failed.\n");                                 /* write fifo read pointer failed */
        
         return 6;                                                                                           /* return error */
     }
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_FIFO_WRITE_POINTER, (uint8_t *)&prev, 1);        /* write fifo write pointer */
-    if (res)                                                                                                /* check result */
+    if (res != 0)                                                                                           /* check result */
     {
         handle->debug_print("max30102: wirte fifo write pointer failed.\n");                                /* write fifo write pointer failed */
        
         return 6;                                                                                           /* return error */
     }
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_OVERFLOW_COUNTER, (uint8_t *)&prev, 1);          /* write overflow counter */
-    if (res)                                                                                                /* check result */
+    if (res != 0)                                                                                           /* check result */
     {
         handle->debug_print("max30102: write overflow counter failed.\n");                                  /* write overflow counter failed */
        
@@ -230,8 +230,8 @@ uint8_t max30102_init(max30102_handle_t *handle)
  */
 uint8_t max30102_deinit(max30102_handle_t *handle)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -243,7 +243,7 @@ uint8_t max30102_deinit(max30102_handle_t *handle)
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);         /* read mode config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read mode config failed.\n");                                 /* read mode config failed */
        
@@ -252,13 +252,13 @@ uint8_t max30102_deinit(max30102_handle_t *handle)
     prev &= ~(1 << 7);                                                                               /* clear config */
     prev |= 1 << 7;                                                                                  /* set bool */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);        /* write mode config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: write mode config failed.\n");                                /* write mode config failed */
        
         return 4;                                                                                    /* return error */
     }
-    if (handle->iic_deinit())                                                                        /* iic deinit */
+    if (handle->iic_deinit() != 0)                                                                   /* iic deinit */
     {
         handle->debug_print("max30102: iic deinit failed.\n");                                       /* iic deinit failed */
         
@@ -282,8 +282,8 @@ uint8_t max30102_deinit(max30102_handle_t *handle)
  */
 uint8_t max30102_irq_handler(max30102_handle_t *handle)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                            /* check handle */
     {
@@ -295,54 +295,53 @@ uint8_t max30102_irq_handler(max30102_handle_t *handle)
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_INTERRUPT_STATUS_1, (uint8_t *)&prev, 1);                /* read interrupt status1 */
-    if (res)                                                                                                       /* check result */
+    if (res != 0)                                                                                                  /* check result */
     {
         handle->debug_print("max30102: read interrupt status1 failed.\n");                                         /* read interrupt status1 failed */
        
         return 1;                                                                                                  /* return error */
     }
-    if (prev & (1 << MAX30102_INTERRUPT_STATUS_FIFO_FULL))                                                         /* check fifo full */
+    if ((prev & (1 << MAX30102_INTERRUPT_STATUS_FIFO_FULL)) != 0)                                                  /* check fifo full */
     {
-        if (handle->receive_callback)                                                                              /* if receive callback */
+        if (handle->receive_callback != NULL)                                                                      /* if receive callback */
         {
             handle->receive_callback(MAX30102_INTERRUPT_STATUS_FIFO_FULL);                                         /* run callback */
         }
     }
-    if (prev & (1 << MAX30102_INTERRUPT_STATUS_PPG_RDY))                                                           /* check ppg ready */
+    if ((prev & (1 << MAX30102_INTERRUPT_STATUS_PPG_RDY)) != 0)                                                    /* check ppg ready */
     {
-        if (handle->receive_callback)                                                                              /* if receive callback */
+        if (handle->receive_callback != NULL)                                                                      /* if receive callback */
         {
             handle->receive_callback(MAX30102_INTERRUPT_STATUS_PPG_RDY);                                           /* run callback */
         }
     }
-    if (prev & (1 << MAX30102_INTERRUPT_STATUS_ALC_OVF))                                                           /* check alc ovf */
+    if ((prev & (1 << MAX30102_INTERRUPT_STATUS_ALC_OVF)) != 0)                                                    /* check alc ovf */
     {
-        if (handle->receive_callback)                                                                              /* if receive callback */
+        if (handle->receive_callback != NULL)                                                                      /* if receive callback */
         {
             handle->receive_callback(MAX30102_INTERRUPT_STATUS_ALC_OVF);                                           /* run callback */
         }
     }
-    if (prev & (1 << MAX30102_INTERRUPT_STATUS_PWR_RDY))                                                           /* check pwr ready */
+    if ((prev & (1 << MAX30102_INTERRUPT_STATUS_PWR_RDY)) != 0)                                                    /* check pwr ready */
     {
-        if (handle->receive_callback)                                                                              /* if receive callback */
+        if (handle->receive_callback != NULL)                                                                      /* if receive callback */
         {
             handle->receive_callback(MAX30102_INTERRUPT_STATUS_PWR_RDY);                                           /* run callback */
         }
     }
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_INTERRUPT_STATUS_2, (uint8_t *)&prev, 1);                /* read interrupt status2 */
-    if (res)                                                                                                       /* check result */
+    if (res != 0)                                                                                                  /* check result */
     {
         handle->debug_print("max30102: read interrupt status2 failed.\n");                                         /* read interrupt status2 failed */
        
         return 1;                                                                                                  /* return error */
     }
-    if (prev & (1 << MAX30102_INTERRUPT_STATUS_DIE_TEMP_RDY))                                                      /* check die temp ready */
+    if ((prev & (1 << MAX30102_INTERRUPT_STATUS_DIE_TEMP_RDY)) != 0)                                               /* check die temp ready */
     {
-        volatile uint8_t prev;
-        volatile uint8_t prev1;
+        uint8_t prev1;
         
         res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_DIE_TEMP_INTEGER, (uint8_t *)&prev, 1);              /* read die temp integer */
-        if (res)                                                                                                   /* check result */
+        if (res != 0)                                                                                              /* check result */
         {
             handle->debug_print("max30102: read die temp integer failed.\n");                                      /* read die temp integer failed */
            
@@ -350,7 +349,7 @@ uint8_t max30102_irq_handler(max30102_handle_t *handle)
         }
         handle->raw = (uint16_t)prev << 4;                                                                         /* set integer part */
         res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_DIE_TEMP_FRACTION, (uint8_t *)&prev1, 1);            /* read die temp fraction */
-        if (res)                                                                                                   /* check result */
+        if (res != 0)                                                                                              /* check result */
         {
             handle->debug_print("max30102: read die temp fraction failed.\n");                                     /* read die temp fraction failed */
            
@@ -360,7 +359,7 @@ uint8_t max30102_irq_handler(max30102_handle_t *handle)
         handle->temperature = (float)(prev) + (float)(prev1) * 0.0625f;                                            /* set the temperature */
         handle->finished_flag = 1;                                                                                 /* set flag */
         
-        if (handle->receive_callback)                                                                              /* if receive callback */
+        if (handle->receive_callback != NULL)                                                                      /* if receive callback */
         {
             handle->receive_callback(MAX30102_INTERRUPT_STATUS_DIE_TEMP_RDY);                                      /* run callback */
         }
@@ -386,16 +385,16 @@ uint8_t max30102_irq_handler(max30102_handle_t *handle)
  */
 uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *raw_ir, uint8_t *len)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
-    volatile uint8_t mode;
-    volatile uint8_t k;
-    volatile uint8_t read_point;
-    volatile uint8_t write_point;
-    volatile uint8_t l;
-    volatile uint8_t bit;
-    volatile uint8_t i;
-    volatile uint8_t r;
+    uint8_t res;
+    uint8_t prev;
+    uint8_t mode;
+    uint8_t k;
+    uint8_t read_point;
+    uint8_t write_point;
+    uint8_t l;
+    uint8_t bit;
+    uint8_t i;
+    uint8_t r;
     
     if (handle == NULL)                                                                                           /* check handle */
     {
@@ -407,28 +406,28 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_OVERFLOW_COUNTER, (uint8_t *)&prev, 1);                 /* read overflow counter */
-    if (res)                                                                                                      /* check result */
+    if (res != 0)                                                                                                 /* check result */
     {
         handle->debug_print("max30102: read overflow counter failed.\n");                                         /* read overflow counter failed */
        
         return 1;                                                                                                 /* return error */
     }
     r = 0;                                                                                                        /* set 0 */
-    if (prev)                                                                                                     /* check overflow */
+    if (prev != 0)                                                                                                /* check overflow */
     {
         r = 4;                                                                                                    /* set 4 */
         
         handle->debug_print("max30102: fifo overrun.\n");                                                         /* fifo overrun*/
     }
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_READ_POINTER, (uint8_t *)&read_point, 1);          /* read fifo read point */
-    if (res)                                                                                                      /* check result */
+    if (res != 0)                                                                                                 /* check result */
     {
         handle->debug_print("max30102: read fifo read point failed.\n");                                          /* read fifo read point failed */
        
         return 1;                                                                                                 /* return error */
     }
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_WRITE_POINTER, (uint8_t *)&write_point, 1);        /* read fifo write point */
-    if (res)                                                                                                      /* check result */
+    if (res != 0)                                                                                                 /* check result */
     {
         handle->debug_print("max30102: read fifo write point failed.\n");                                         /* read fifo write point failed */
        
@@ -445,7 +444,7 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
     }
     *len = ((*len) > l) ? l : (*len);                                                                             /* set read length */
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);                      /* read mode config */
-    if (res)                                                                                                      /* check result */
+    if (res != 0)                                                                                                 /* check result */
     {
         handle->debug_print("max30102: read mode config failed.\n");                                              /* read mode config failed */
        
@@ -472,14 +471,14 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_DATA_REGISTER, handle->buf, (*len) * k);           /* read fifo read point */
-    if (res)                                                                                                      /* check result */
+    if (res != 0)                                                                                                 /* check result */
     {
         handle->debug_print("max30102: read fifo data register failed.\n");                                       /* read fifo data register failed */
        
         return 1;                                                                                                 /* return error */
     }
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_SPO2_CONFIG, (uint8_t *)&prev, 1);                      /* read spo2 config */
-    if (res)                                                                                                      /* check result */
+    if (res != 0)                                                                                                 /* check result */
     {
         handle->debug_print("max30102: read spo2 config failed.\n");                                              /* read spo2 config failed */
        
@@ -502,6 +501,7 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
     {
         bit = 0;                                                                                                  /* 18 bits */
     }
+    
     for (i = 0; i < (*len); i++)                                                                                  /* copy data */
     {
         if (mode == MAX30102_MODE_HEART_RATE)                                                                     /* check red mode */
@@ -541,10 +541,9 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
  */
 uint8_t max30102_read_temperature(max30102_handle_t *handle, uint16_t *raw, float *temp)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
-    volatile uint8_t prev1;
-    volatile uint16_t timeout;
+    uint8_t res;
+    uint8_t prev;
+    uint16_t timeout;
     
     if (handle == NULL)                                                                                        /* check handle */
     {
@@ -556,7 +555,7 @@ uint8_t max30102_read_temperature(max30102_handle_t *handle, uint16_t *raw, floa
     }
 
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_INTERRUPT_ENABLE_2, (uint8_t *)&prev, 1);            /* read interrupt enable2 */
-    if (res)                                                                                                   /* check result */
+    if (res != 0)                                                                                              /* check result */
     {
         handle->debug_print("max30102: read interrupt enable2 failed.\n");                                     /* read interrupt enable2 failed */
        
@@ -567,7 +566,7 @@ uint8_t max30102_read_temperature(max30102_handle_t *handle, uint16_t *raw, floa
         prev &= ~(1 << 1);                                                                                     /* clear interrupt */
         prev |= 1 << 1;                                                                                        /* set interrupt */
         res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_INTERRUPT_ENABLE_2, (uint8_t *)&prev, 1);       /* write interrupt enable2 */
-        if (res)                                                                                               /* check result */
+        if (res != 0)                                                                                          /* check result */
         {
             handle->debug_print("max30102: write interrupt enable2 failed.\n");                                /* write interrupt enable2 failed */
            
@@ -576,7 +575,7 @@ uint8_t max30102_read_temperature(max30102_handle_t *handle, uint16_t *raw, floa
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_DIE_TEMP_CONFIG, (uint8_t *)&prev, 1);               /* read die temp config */
-    if (res)                                                                                                   /* check result */
+    if (res != 0)                                                                                              /* check result */
     {
         handle->debug_print("max30102: read die temp config failed.\n");                                       /* read die temp config failed */
        
@@ -585,7 +584,7 @@ uint8_t max30102_read_temperature(max30102_handle_t *handle, uint16_t *raw, floa
     prev &= ~(1 << 0);                                                                                         /* clear config */
     prev |= (1 << 0);                                                                                          /* set bool */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_DIE_TEMP_CONFIG, (uint8_t *)&prev, 1);              /* write die temp config */
-    if (res)                                                                                                   /* check result */
+    if (res != 0)                                                                                              /* check result */
     {
         handle->debug_print("max30102: write die temp config failed.\n");                                      /* write die temp config failed */
        
@@ -594,11 +593,11 @@ uint8_t max30102_read_temperature(max30102_handle_t *handle, uint16_t *raw, floa
     
     timeout = 5000;                                                                                            /* set 5000 ms */
     handle->finished_flag = 0;                                                                                 /* clear finished flag */
-    while (timeout)                                                                                            /* timeout */
+    while (timeout != 0)                                                                                       /* timeout */
     {
         handle->delay_ms(1);                                                                                   /* delay 1 ms */
         timeout--;                                                                                             /* timeout */
-        if (handle->finished_flag)                                                                             /* check finished flag */
+        if (handle->finished_flag != 0)                                                                        /* check finished flag */
         {
             break;                                                                                             /* break */
         }
@@ -629,8 +628,8 @@ uint8_t max30102_read_temperature(max30102_handle_t *handle, uint16_t *raw, floa
  */
 uint8_t max30102_get_interrupt_status(max30102_handle_t *handle, max30102_interrupt_status_t status, max30102_bool_t *enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                        /* check handle */
     {
@@ -644,7 +643,7 @@ uint8_t max30102_get_interrupt_status(max30102_handle_t *handle, max30102_interr
     if (status == MAX30102_INTERRUPT_STATUS_DIE_TEMP_RDY)                                                      /* if die temp ready status */
     {
         res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_INTERRUPT_STATUS_2, (uint8_t *)&prev, 1);        /* read interrupt status2 */
-        if (res)                                                                                               /* check result */
+        if (res != 0)                                                                                          /* check result */
         {
             handle->debug_print("max30102: read interrupt status2 failed.\n");                                 /* read interrupt status2 failed */
            
@@ -657,7 +656,7 @@ uint8_t max30102_get_interrupt_status(max30102_handle_t *handle, max30102_interr
     else
     {
         res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_INTERRUPT_STATUS_1, (uint8_t *)&prev, 1);        /* read interrupt status1 */
-        if (res)                                                                                               /* check result */
+        if (res != 0)                                                                                          /* check result */
         {
             handle->debug_print("max30102: read interrupt status1 failed.\n");                                 /* read interrupt status1 failed */
            
@@ -672,7 +671,7 @@ uint8_t max30102_get_interrupt_status(max30102_handle_t *handle, max30102_interr
 /**
  * @brief     set the interrupt bool
  * @param[in] *handle points to a max30102 handle structure
- * @param[in] interrupt is the interrupt type
+ * @param[in] type is the interrupt type
  * @param[in] enable is a bool value
  * @return    status code
  *            - 0 success
@@ -681,10 +680,10 @@ uint8_t max30102_get_interrupt_status(max30102_handle_t *handle, max30102_interr
  *            - 3 handle is not initialized
  * @note      none
  */
-uint8_t max30102_set_interrupt(max30102_handle_t *handle, max30102_interrupt_t interrupt, max30102_bool_t enable)
+uint8_t max30102_set_interrupt(max30102_handle_t *handle, max30102_interrupt_t type, max30102_bool_t enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                        /* check handle */
     {
@@ -695,19 +694,19 @@ uint8_t max30102_set_interrupt(max30102_handle_t *handle, max30102_interrupt_t i
         return 3;                                                                                              /* return error */
     }
 
-    if (interrupt == MAX30102_INTERRUPT_DIE_TEMP_RDY_EN)                                                       /* if internal temperature enable */
+    if (type == MAX30102_INTERRUPT_DIE_TEMP_RDY_EN)                                                            /* if internal temperature enable */
     {
         res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_INTERRUPT_ENABLE_2, (uint8_t *)&prev, 1);        /* read interrupt enable2 */
-        if (res)                                                                                               /* check result */
+        if (res != 0)                                                                                          /* check result */
         {
             handle->debug_print("max30102: read interrupt enable2 failed.\n");                                 /* read interrupt enable2 failed */
            
             return 1;                                                                                          /* return error */
         }
-        prev &= ~(1 << interrupt);                                                                             /* clear interrupt */
-        prev |= enable << interrupt;                                                                           /* set interrupt */
+        prev &= ~(1 << type);                                                                                  /* clear interrupt */
+        prev |= enable << type;                                                                                /* set interrupt */
         res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_INTERRUPT_ENABLE_2, (uint8_t *)&prev, 1);       /* write interrupt enable2 */
-        if (res)                                                                                               /* check result */
+        if (res != 0)                                                                                          /* check result */
         {
             handle->debug_print("max30102: write interrupt enable2 failed.\n");                                /* write interrupt enable2 failed */
            
@@ -719,16 +718,16 @@ uint8_t max30102_set_interrupt(max30102_handle_t *handle, max30102_interrupt_t i
     else
     {
         res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_INTERRUPT_ENABLE_1, (uint8_t *)&prev, 1);        /* read interrupt enable1 */
-        if (res)                                                                                               /* check result */
+        if (res != 0)                                                                                          /* check result */
         {
             handle->debug_print("max30102: read interrupt enable1 failed.\n");                                 /* read interrupt enable1 failed */
            
             return 1;                                                                                          /* return error */
         }
-        prev &= ~(1 << interrupt);                                                                             /* clear interrupt */
-        prev |= enable << interrupt;                                                                           /* set interrupt */
+        prev &= ~(1 << type);                                                                                  /* clear interrupt */
+        prev |= enable << type;                                                                                /* set interrupt */
         res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_INTERRUPT_ENABLE_1, (uint8_t *)&prev, 1);       /* write interrupt enable1 */
-        if (res)                                                                                               /* check result */
+        if (res != 0)                                                                                          /* check result */
         {
             handle->debug_print("max30102: write interrupt enable1 failed.\n");                                /* write interrupt enable1 failed */
            
@@ -742,7 +741,7 @@ uint8_t max30102_set_interrupt(max30102_handle_t *handle, max30102_interrupt_t i
 /**
  * @brief      get the interrupt bool
  * @param[in]  *handle points to a max30102 handle structure
- * @param[in]  interrupt is the interrupt type
+ * @param[in]  type is the interrupt type
  * @param[out] *enable points to a bool value buffer
  * @return     status code
  *             - 0 success
@@ -751,10 +750,10 @@ uint8_t max30102_set_interrupt(max30102_handle_t *handle, max30102_interrupt_t i
  *             - 3 handle is not initialized
  * @note       none
  */
-uint8_t max30102_get_interrupt(max30102_handle_t *handle, max30102_interrupt_t interrupt, max30102_bool_t *enable)
+uint8_t max30102_get_interrupt(max30102_handle_t *handle, max30102_interrupt_t type, max30102_bool_t *enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                        /* check handle */
     {
@@ -765,29 +764,29 @@ uint8_t max30102_get_interrupt(max30102_handle_t *handle, max30102_interrupt_t i
         return 3;                                                                                              /* return error */
     }
 
-    if (interrupt == MAX30102_INTERRUPT_DIE_TEMP_RDY_EN)                                                       /* if internal temperature enable */
+    if (type == MAX30102_INTERRUPT_DIE_TEMP_RDY_EN)                                                            /* if internal temperature enable */
     {
         res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_INTERRUPT_ENABLE_2, (uint8_t *)&prev, 1);        /* read interrupt enable2 */
-        if (res)                                                                                               /* check result */
+        if (res != 0)                                                                                          /* check result */
         {
             handle->debug_print("max30102: read interrupt enable2 failed.\n");                                 /* read interrupt enable2 failed */
            
             return 1;                                                                                          /* return error */
         }
-        *enable = (max30102_bool_t)((prev >> interrupt) & 0x01);                                               /* get bool */
+        *enable = (max30102_bool_t)((prev >> type) & 0x01);                                                    /* get bool */
     
         return 0;                                                                                              /* success return 0 */
     }
     else
     {
         res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_INTERRUPT_ENABLE_1, (uint8_t *)&prev, 1);        /* read interrupt enable1 */
-        if (res)                                                                                               /* check result */
+        if (res != 0)                                                                                          /* check result */
         {
             handle->debug_print("max30102: read interrupt enable1 failed.\n");                                 /* read interrupt enable1 failed */
            
             return 1;                                                                                          /* return error */
         }
-        *enable = (max30102_bool_t)((prev >> interrupt) & 0x01);                                               /* get bool */
+        *enable = (max30102_bool_t)((prev >> type) & 0x01);                                                    /* get bool */
     
         return 0;                                                                                              /* success return 0 */
     }
@@ -807,8 +806,8 @@ uint8_t max30102_get_interrupt(max30102_handle_t *handle, max30102_interrupt_t i
  */
 uint8_t max30102_set_fifo_write_pointer(max30102_handle_t *handle, uint8_t pointer)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                     /* check handle */
     {
@@ -827,7 +826,7 @@ uint8_t max30102_set_fifo_write_pointer(max30102_handle_t *handle, uint8_t point
 
     prev = pointer & 0x1F;                                                                                  /* set pointer */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_FIFO_WRITE_POINTER, (uint8_t *)&prev, 1);        /* write fifo write pointer */
-    if (res)                                                                                                /* check result */
+    if (res != 0)                                                                                           /* check result */
     {
         handle->debug_print("max30102: wirte fifo write pointer failed.\n");                                /* write fifo write pointer failed */
        
@@ -850,8 +849,8 @@ uint8_t max30102_set_fifo_write_pointer(max30102_handle_t *handle, uint8_t point
  */
 uint8_t max30102_get_fifo_write_pointer(max30102_handle_t *handle, uint8_t *pointer)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                    /* check handle */
     {
@@ -863,7 +862,7 @@ uint8_t max30102_get_fifo_write_pointer(max30102_handle_t *handle, uint8_t *poin
     }
 
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_WRITE_POINTER, (uint8_t *)&prev, 1);        /* read fifo write pointer */
-    if (res)                                                                                               /* check result */
+    if (res != 0)                                                                                          /* check result */
     {
         handle->debug_print("max30102: read fifo write pointer failed.\n");                                /* read fifo write pointer failed */
        
@@ -888,8 +887,8 @@ uint8_t max30102_get_fifo_write_pointer(max30102_handle_t *handle, uint8_t *poin
  */
 uint8_t max30102_set_fifo_overflow_counter(max30102_handle_t *handle, uint8_t counter)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                   /* check handle */
     {
@@ -908,7 +907,7 @@ uint8_t max30102_set_fifo_overflow_counter(max30102_handle_t *handle, uint8_t co
 
     prev = counter & 0x1F;                                                                                /* set counter */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_OVERFLOW_COUNTER, (uint8_t *)&prev, 1);        /* set fifo overflow counter */
-    if (res)                                                                                              /* check result */
+    if (res != 0)                                                                                         /* check result */
     {
         handle->debug_print("max30102: set fifo overflow counter failed.\n");                             /* set fifo overflow counter failed */
        
@@ -931,8 +930,8 @@ uint8_t max30102_set_fifo_overflow_counter(max30102_handle_t *handle, uint8_t co
  */
 uint8_t max30102_get_fifo_overflow_counter(max30102_handle_t *handle, uint8_t *counter)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                  /* check handle */
     {
@@ -944,7 +943,7 @@ uint8_t max30102_get_fifo_overflow_counter(max30102_handle_t *handle, uint8_t *c
     }
 
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_OVERFLOW_COUNTER, (uint8_t *)&prev, 1);        /* get fifo overflow counter */
-    if (res)                                                                                             /* check result */
+    if (res != 0)                                                                                        /* check result */
     {
         handle->debug_print("max30102: get fifo overflow counter failed.\n");                            /* get fifo overflow counter failed */
        
@@ -969,8 +968,8 @@ uint8_t max30102_get_fifo_overflow_counter(max30102_handle_t *handle, uint8_t *c
  */
 uint8_t max30102_set_fifo_read_pointer(max30102_handle_t *handle, uint8_t pointer)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                    /* check handle */
     {
@@ -989,7 +988,7 @@ uint8_t max30102_set_fifo_read_pointer(max30102_handle_t *handle, uint8_t pointe
 
     prev = pointer & 0x1F;                                                                                 /* set pointer */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_FIFO_READ_POINTER, (uint8_t *)&prev, 1);        /* write fifo read pointer */
-    if (res)                                                                                               /* check result */
+    if (res != 0)                                                                                          /* check result */
     {
         handle->debug_print("max30102: wirte fifo read pointer failed.\n");                                /* write fifo read pointer failed */
        
@@ -1012,8 +1011,8 @@ uint8_t max30102_set_fifo_read_pointer(max30102_handle_t *handle, uint8_t pointe
  */
 uint8_t max30102_get_fifo_read_pointer(max30102_handle_t *handle, uint8_t *pointer)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                   /* check handle */
     {
@@ -1025,7 +1024,7 @@ uint8_t max30102_get_fifo_read_pointer(max30102_handle_t *handle, uint8_t *point
     }
 
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_READ_POINTER, (uint8_t *)&prev, 1);        /* read fifo read pointer */
-    if (res)                                                                                              /* check result */
+    if (res != 0)                                                                                         /* check result */
     {
         handle->debug_print("max30102: read fifo read pointer failed.\n");                                /* read fifo read pointer failed */
        
@@ -1049,7 +1048,7 @@ uint8_t max30102_get_fifo_read_pointer(max30102_handle_t *handle, uint8_t *point
  */
 uint8_t max30102_set_fifo_data(max30102_handle_t *handle, uint8_t data)
 {
-    volatile uint8_t res;
+    uint8_t res;
     
     if (handle == NULL)                                                                                     /* check handle */
     {
@@ -1061,7 +1060,7 @@ uint8_t max30102_set_fifo_data(max30102_handle_t *handle, uint8_t data)
     }
     
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_FIFO_DATA_REGISTER, (uint8_t *)&data, 1);        /* write fifo data register */
-    if (res)                                                                                                /* check result */
+    if (res != 0)                                                                                           /* check result */
     {
         handle->debug_print("max30102: wirte fifo data register failed.\n");                                /* write fifo data register failed */
        
@@ -1084,7 +1083,7 @@ uint8_t max30102_set_fifo_data(max30102_handle_t *handle, uint8_t data)
  */
 uint8_t max30102_get_fifo_data(max30102_handle_t *handle, uint8_t *data)
 {
-    volatile uint8_t res;
+    uint8_t res;
     
     if (handle == NULL)                                                                                   /* check handle */
     {
@@ -1096,7 +1095,7 @@ uint8_t max30102_get_fifo_data(max30102_handle_t *handle, uint8_t *data)
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_DATA_REGISTER, (uint8_t *)data, 1);        /* read fifo data register */
-    if (res)                                                                                              /* check result */
+    if (res != 0)                                                                                         /* check result */
     {
         handle->debug_print("max30102: read fifo data register failed.\n");                               /* read fifo data register failed */
        
@@ -1119,8 +1118,8 @@ uint8_t max30102_get_fifo_data(max30102_handle_t *handle, uint8_t *data)
  */
 uint8_t max30102_set_fifo_sample_averaging(max30102_handle_t *handle, max30102_sample_averaging_t sample)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1132,7 +1131,7 @@ uint8_t max30102_set_fifo_sample_averaging(max30102_handle_t *handle, max30102_s
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_CONFIG, (uint8_t *)&prev, 1);         /* read fifo config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read fifo config failed.\n");                                 /* read fifo config failed */
        
@@ -1141,7 +1140,7 @@ uint8_t max30102_set_fifo_sample_averaging(max30102_handle_t *handle, max30102_s
     prev &= ~(0x7 << 5);                                                                             /* clear config */
     prev |= sample << 5;                                                                             /* set sample */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_FIFO_CONFIG, (uint8_t *)&prev, 1);        /* write fifo config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: write fifo config failed.\n");                                /* write fifo config failed */
        
@@ -1164,8 +1163,8 @@ uint8_t max30102_set_fifo_sample_averaging(max30102_handle_t *handle, max30102_s
  */
 uint8_t max30102_get_fifo_sample_averaging(max30102_handle_t *handle, max30102_sample_averaging_t *sample)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1177,7 +1176,7 @@ uint8_t max30102_get_fifo_sample_averaging(max30102_handle_t *handle, max30102_s
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_CONFIG, (uint8_t *)&prev, 1);         /* read fifo config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read fifo config failed.\n");                                 /* read fifo config failed */
        
@@ -1201,8 +1200,8 @@ uint8_t max30102_get_fifo_sample_averaging(max30102_handle_t *handle, max30102_s
  */
 uint8_t max30102_set_fifo_roll(max30102_handle_t *handle, max30102_bool_t enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1214,7 +1213,7 @@ uint8_t max30102_set_fifo_roll(max30102_handle_t *handle, max30102_bool_t enable
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_CONFIG, (uint8_t *)&prev, 1);         /* read fifo config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read fifo config failed.\n");                                 /* read fifo config failed */
        
@@ -1223,7 +1222,7 @@ uint8_t max30102_set_fifo_roll(max30102_handle_t *handle, max30102_bool_t enable
     prev &= ~(0x1 << 4);                                                                             /* clear config */
     prev |= enable << 4;                                                                             /* set enable */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_FIFO_CONFIG, (uint8_t *)&prev, 1);        /* write fifo config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: write fifo config failed.\n");                                /* write fifo config failed */
        
@@ -1246,8 +1245,8 @@ uint8_t max30102_set_fifo_roll(max30102_handle_t *handle, max30102_bool_t enable
  */
 uint8_t max30102_get_fifo_roll(max30102_handle_t *handle, max30102_bool_t *enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1259,7 +1258,7 @@ uint8_t max30102_get_fifo_roll(max30102_handle_t *handle, max30102_bool_t *enabl
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_CONFIG, (uint8_t *)&prev, 1);         /* read fifo config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read fifo config failed.\n");                                 /* read fifo config failed */
        
@@ -1284,8 +1283,8 @@ uint8_t max30102_get_fifo_roll(max30102_handle_t *handle, max30102_bool_t *enabl
  */
 uint8_t max30102_set_fifo_almost_full(max30102_handle_t *handle, uint8_t value)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1303,7 +1302,7 @@ uint8_t max30102_set_fifo_almost_full(max30102_handle_t *handle, uint8_t value)
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_CONFIG, (uint8_t *)&prev, 1);         /* read fifo config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read fifo config failed.\n");                                 /* read fifo config failed */
        
@@ -1312,7 +1311,7 @@ uint8_t max30102_set_fifo_almost_full(max30102_handle_t *handle, uint8_t value)
     prev &= ~(0xF << 0);                                                                             /* clear config */
     prev |= value << 0;                                                                              /* set value */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_FIFO_CONFIG, (uint8_t *)&prev, 1);        /* write fifo config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: write fifo config failed.\n");                                /* write fifo config failed */
        
@@ -1335,8 +1334,8 @@ uint8_t max30102_set_fifo_almost_full(max30102_handle_t *handle, uint8_t value)
  */
 uint8_t max30102_get_fifo_almost_full(max30102_handle_t *handle, uint8_t *value)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                             /* check handle */
     {
@@ -1348,7 +1347,7 @@ uint8_t max30102_get_fifo_almost_full(max30102_handle_t *handle, uint8_t *value)
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_CONFIG, (uint8_t *)&prev, 1);        /* read fifo config */
-    if (res)                                                                                        /* check result */
+    if (res != 0)                                                                                   /* check result */
     {
         handle->debug_print("max30102: read fifo config failed.\n");                                /* read fifo config failed */
        
@@ -1372,8 +1371,8 @@ uint8_t max30102_get_fifo_almost_full(max30102_handle_t *handle, uint8_t *value)
  */
 uint8_t max30102_set_shutdown(max30102_handle_t *handle, max30102_bool_t enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1385,7 +1384,7 @@ uint8_t max30102_set_shutdown(max30102_handle_t *handle, max30102_bool_t enable)
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);         /* read mode config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read mode config failed.\n");                                 /* read mode config failed */
        
@@ -1394,7 +1393,7 @@ uint8_t max30102_set_shutdown(max30102_handle_t *handle, max30102_bool_t enable)
     prev &= ~(1 << 7);                                                                               /* clear config */
     prev |= enable << 7;                                                                             /* set bool */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);        /* write mode config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: write mode config failed.\n");                                /* write mode config failed */
        
@@ -1417,8 +1416,8 @@ uint8_t max30102_set_shutdown(max30102_handle_t *handle, max30102_bool_t enable)
  */
 uint8_t max30102_get_shutdown(max30102_handle_t *handle, max30102_bool_t *enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1430,7 +1429,7 @@ uint8_t max30102_get_shutdown(max30102_handle_t *handle, max30102_bool_t *enable
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);         /* read mode config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read mode config failed.\n");                                 /* read mode config failed */
        
@@ -1453,8 +1452,8 @@ uint8_t max30102_get_shutdown(max30102_handle_t *handle, max30102_bool_t *enable
  */
 uint8_t max30102_reset(max30102_handle_t *handle)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1466,7 +1465,7 @@ uint8_t max30102_reset(max30102_handle_t *handle)
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);         /* read mode config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read mode config failed.\n");                                 /* read mode config failed */
        
@@ -1475,7 +1474,7 @@ uint8_t max30102_reset(max30102_handle_t *handle)
     prev &= ~(1 << 6);                                                                               /* clear config */
     prev |= 1 << 6;                                                                                  /* set 1 */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);        /* write mode config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: write mode config failed.\n");                                /* write mode config failed */
        
@@ -1498,8 +1497,8 @@ uint8_t max30102_reset(max30102_handle_t *handle)
  */
 uint8_t max30102_set_mode(max30102_handle_t *handle, max30102_mode_t mode)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1511,7 +1510,7 @@ uint8_t max30102_set_mode(max30102_handle_t *handle, max30102_mode_t mode)
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);         /* read mode config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read mode config failed.\n");                                 /* read mode config failed */
        
@@ -1520,7 +1519,7 @@ uint8_t max30102_set_mode(max30102_handle_t *handle, max30102_mode_t mode)
     prev &= ~(7 << 0);                                                                               /* clear config */
     prev |= mode << 0;                                                                               /* set mode */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);        /* write mode config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: write mode config failed.\n");                                /* write mode config failed */
        
@@ -1543,8 +1542,8 @@ uint8_t max30102_set_mode(max30102_handle_t *handle, max30102_mode_t mode)
  */
 uint8_t max30102_get_mode(max30102_handle_t *handle, max30102_mode_t *mode)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1556,7 +1555,7 @@ uint8_t max30102_get_mode(max30102_handle_t *handle, max30102_mode_t *mode)
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);         /* read mode config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read mode config failed.\n");                                 /* read mode config failed */
        
@@ -1580,8 +1579,8 @@ uint8_t max30102_get_mode(max30102_handle_t *handle, max30102_mode_t *mode)
  */
 uint8_t max30102_set_spo2_adc_range(max30102_handle_t *handle, max30102_spo2_adc_range_t range)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1593,7 +1592,7 @@ uint8_t max30102_set_spo2_adc_range(max30102_handle_t *handle, max30102_spo2_adc
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_SPO2_CONFIG, (uint8_t *)&prev, 1);         /* read spo2 config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read spo2 config failed.\n");                                 /* read spo2 config failed */
        
@@ -1602,7 +1601,7 @@ uint8_t max30102_set_spo2_adc_range(max30102_handle_t *handle, max30102_spo2_adc
     prev &= ~(3 << 5);                                                                               /* clear config */
     prev |= range << 5;                                                                              /* set range */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_SPO2_CONFIG, (uint8_t *)&prev, 1);        /* write spo2 config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: write spo2 config failed.\n");                                /* write spo2 config failed */
        
@@ -1625,8 +1624,8 @@ uint8_t max30102_set_spo2_adc_range(max30102_handle_t *handle, max30102_spo2_adc
  */
 uint8_t max30102_get_spo2_adc_range(max30102_handle_t *handle, max30102_spo2_adc_range_t *range)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1638,7 +1637,7 @@ uint8_t max30102_get_spo2_adc_range(max30102_handle_t *handle, max30102_spo2_adc
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_SPO2_CONFIG, (uint8_t *)&prev, 1);         /* read spo2 config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read spo2 config failed.\n");                                 /* read spo2 config failed */
        
@@ -1662,8 +1661,8 @@ uint8_t max30102_get_spo2_adc_range(max30102_handle_t *handle, max30102_spo2_adc
  */
 uint8_t max30102_set_spo2_sample_rate(max30102_handle_t *handle, max30102_spo2_sample_rate_t rate)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1675,7 +1674,7 @@ uint8_t max30102_set_spo2_sample_rate(max30102_handle_t *handle, max30102_spo2_s
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_SPO2_CONFIG, (uint8_t *)&prev, 1);         /* read spo2 config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read spo2 config failed.\n");                                 /* read spo2 config failed */
        
@@ -1684,7 +1683,7 @@ uint8_t max30102_set_spo2_sample_rate(max30102_handle_t *handle, max30102_spo2_s
     prev &= ~(7 << 2);                                                                               /* clear config */
     prev |= rate << 2;                                                                               /* set sample rate */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_SPO2_CONFIG, (uint8_t *)&prev, 1);        /* write spo2 config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: write spo2 config failed.\n");                                /* write spo2 config failed */
        
@@ -1707,8 +1706,8 @@ uint8_t max30102_set_spo2_sample_rate(max30102_handle_t *handle, max30102_spo2_s
  */
 uint8_t max30102_get_spo2_sample_rate(max30102_handle_t *handle, max30102_spo2_sample_rate_t *rate)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                             /* check handle */
     {
@@ -1720,7 +1719,7 @@ uint8_t max30102_get_spo2_sample_rate(max30102_handle_t *handle, max30102_spo2_s
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_SPO2_CONFIG, (uint8_t *)&prev, 1);        /* read spo2 config */
-    if (res)                                                                                        /* check result */
+    if (res != 0)                                                                                   /* check result */
     {
         handle->debug_print("max30102: read spo2 config failed.\n");                                /* read spo2 config failed */
        
@@ -1744,8 +1743,8 @@ uint8_t max30102_get_spo2_sample_rate(max30102_handle_t *handle, max30102_spo2_s
  */
 uint8_t max30102_set_adc_resolution(max30102_handle_t *handle, max30102_adc_resolution_t resolution)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1757,7 +1756,7 @@ uint8_t max30102_set_adc_resolution(max30102_handle_t *handle, max30102_adc_reso
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_SPO2_CONFIG, (uint8_t *)&prev, 1);         /* read spo2 config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read spo2 config failed.\n");                                 /* read spo2 config failed */
        
@@ -1766,7 +1765,7 @@ uint8_t max30102_set_adc_resolution(max30102_handle_t *handle, max30102_adc_reso
     prev &= ~(3 << 0);                                                                               /* clear config */
     prev |= resolution << 0;                                                                         /* set adc resolution */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_SPO2_CONFIG, (uint8_t *)&prev, 1);        /* write spo2 config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: write spo2 config failed.\n");                                /* write spo2 config failed */
        
@@ -1789,8 +1788,8 @@ uint8_t max30102_set_adc_resolution(max30102_handle_t *handle, max30102_adc_reso
  */
 uint8_t max30102_get_adc_resolution(max30102_handle_t *handle, max30102_adc_resolution_t *resolution)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                              /* check handle */
     {
@@ -1802,7 +1801,7 @@ uint8_t max30102_get_adc_resolution(max30102_handle_t *handle, max30102_adc_reso
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_SPO2_CONFIG, (uint8_t *)&prev, 1);         /* read spo2 config */
-    if (res)                                                                                         /* check result */
+    if (res != 0)                                                                                    /* check result */
     {
         handle->debug_print("max30102: read spo2 config failed.\n");                                 /* read spo2 config failed */
        
@@ -1826,7 +1825,7 @@ uint8_t max30102_get_adc_resolution(max30102_handle_t *handle, max30102_adc_reso
  */
 uint8_t max30102_set_led_red_pulse_amplitude(max30102_handle_t *handle, uint8_t amp)
 {
-    volatile uint8_t res;
+    uint8_t res;
     
     if (handle == NULL)                                                                             /* check handle */
     {
@@ -1838,7 +1837,7 @@ uint8_t max30102_set_led_red_pulse_amplitude(max30102_handle_t *handle, uint8_t 
     }
     
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_LED_PULSE_1, (uint8_t *)&amp, 1);        /* write led pulse 1 */
-    if (res)                                                                                        /* check result */
+    if (res != 0)                                                                                   /* check result */
     {
         handle->debug_print("max30102: write led pulse 1 failed.\n");                               /* write led pulse 1 failed */
        
@@ -1861,7 +1860,7 @@ uint8_t max30102_set_led_red_pulse_amplitude(max30102_handle_t *handle, uint8_t 
  */
 uint8_t max30102_get_led_red_pulse_amplitude(max30102_handle_t *handle, uint8_t *amp)
 {
-    volatile uint8_t res;
+    uint8_t res;
     
     if (handle == NULL)                                                                           /* check handle */
     {
@@ -1873,7 +1872,7 @@ uint8_t max30102_get_led_red_pulse_amplitude(max30102_handle_t *handle, uint8_t 
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_LED_PULSE_1, (uint8_t *)amp, 1);        /* read led pulse 1 */
-    if (res)                                                                                      /* check result */
+    if (res != 0)                                                                                 /* check result */
     {
         handle->debug_print("max30102: read led pulse 1 failed.\n");                              /* read led pulse 1 failed */
        
@@ -1896,7 +1895,7 @@ uint8_t max30102_get_led_red_pulse_amplitude(max30102_handle_t *handle, uint8_t 
  */
 uint8_t max30102_set_led_ir_pulse_amplitude(max30102_handle_t *handle, uint8_t amp)
 {
-    volatile uint8_t res;
+    uint8_t res;
     
     if (handle == NULL)                                                                             /* check handle */
     {
@@ -1908,7 +1907,7 @@ uint8_t max30102_set_led_ir_pulse_amplitude(max30102_handle_t *handle, uint8_t a
     }
     
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_LED_PULSE_2, (uint8_t *)&amp, 1);        /* write led pulse 2 */
-    if (res)                                                                                        /* check result */
+    if (res != 0)                                                                                   /* check result */
     {
         handle->debug_print("max30102: write led pulse 2 failed.\n");                               /* write led pulse 2 failed */
        
@@ -1931,7 +1930,7 @@ uint8_t max30102_set_led_ir_pulse_amplitude(max30102_handle_t *handle, uint8_t a
  */
 uint8_t max30102_get_led_ir_pulse_amplitude(max30102_handle_t *handle, uint8_t *amp)
 {
-    volatile uint8_t res;
+    uint8_t res;
     
     if (handle == NULL)                                                                           /* check handle */
     {
@@ -1943,7 +1942,7 @@ uint8_t max30102_get_led_ir_pulse_amplitude(max30102_handle_t *handle, uint8_t *
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_LED_PULSE_2, (uint8_t *)amp, 1);        /* read led pulse 2 */
-    if (res)                                                                                      /* check result */
+    if (res != 0)                                                                                 /* check result */
     {
         handle->debug_print("max30102: read led pulse 2 failed.\n");                              /* read led pulse 2 failed */
        
@@ -1967,110 +1966,107 @@ uint8_t max30102_get_led_ir_pulse_amplitude(max30102_handle_t *handle, uint8_t *
  */
 uint8_t max30102_set_slot(max30102_handle_t *handle, max30102_slot_t slot, max30102_led_t led)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
-    if (handle == NULL)                                                                                                  /* check handle */
+    if (handle == NULL)                                                                                              /* check handle */
     {
-        return 2;                                                                                                        /* return error */
+        return 2;                                                                                                    /* return error */
     }
-    if (handle->inited != 1)                                                                                             /* check handle initialization */
+    if (handle->inited != 1)                                                                                         /* check handle initialization */
     {
-        return 3;                                                                                                        /* return error */
+        return 3;                                                                                                    /* return error */
     }
     
-    switch (slot)                                                                                                        /* check slot */
+    if (slot == MAX30102_SLOT_1)                                                                                     /* slot 1 */
     {
-        case MAX30102_SLOT_1 :                                                                                           /* slot 1 */
+        res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_1, (uint8_t *)&prev, 1);        /* read led slot */
+        if (res != 0)                                                                                                /* check result */
         {
-            res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_1, (uint8_t *)&prev, 1);        /* read led slot */
-            if (res)                                                                                                     /* check result */
-            {
-                handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
-               
-                return 1;                                                                                                /* return error */
-            }
-            prev &= ~(0x7 << 0);                                                                                         /* clear config */
-            prev |= led << 0;                                                                                            /* set led */
-            res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_1, (uint8_t *)&prev, 1);       /* write led slot */
-            if (res)                                                                                                     /* check result */
-            {
-                handle->debug_print("max30102: write led slot failed.\n");                                               /* write led slot failed */
-               
-                return 1;                                                                                                /* return error */
-            }
-            
-            return 0;                                                                                                    /* success return 0 */
-        }
-        case MAX30102_SLOT_2 :
-        {
-            res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_1, (uint8_t *)&prev, 1);        /* read led slot */
-            if (res)                                                                                                     /* check result */
-            {
-                handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
-               
-                return 1;                                                                                                /* return error */
-            }
-            prev &= ~(0x7 << 4);                                                                                         /* clear config */
-            prev |= led << 4;                                                                                            /* set led */
-            res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_1, (uint8_t *)&prev, 1);       /* write led slot */
-            if (res)                                                                                                     /* check result */
-            {
-                handle->debug_print("max30102: write led slot failed.\n");                                               /* write led slot failed */
-               
-                return 1;                                                                                                /* return error */
-            }
-            
-            return 0;                                                                                                    /* success return 0 */
-        }
-        case MAX30102_SLOT_3 :
-        {
-            res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_2, (uint8_t *)&prev, 1);        /* read led slot */
-            if (res)                                                                                                     /* check result */
-            {
-                handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
-               
-                return 1;                                                                                                /* return error */
-            }
-            prev &= ~(0x7 << 0);                                                                                         /* clear config */
-            prev |= led << 0;                                                                                            /* set led */
-            res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_2, (uint8_t *)&prev, 1);       /* write led slot */
-            if (res)                                                                                                     /* check result */
-            {
-                handle->debug_print("max30102: write led slot failed.\n");                                               /* write led slot failed */
-               
-                return 1;                                                                                                /* return error */
-            }
-            
-            return 0;                                                                                                    /* success return 0 */
-        }
-        case MAX30102_SLOT_4 :
-        {
-            res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_2, (uint8_t *)&prev, 1);        /* read led slot */
-            if (res)                                                                                                     /* check result */
-            {
-                handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
-               
-                return 1;                                                                                                /* return error */
-            }
-            prev &= ~(0x7 << 4);                                                                                         /* clear config */
-            prev |= led << 4;                                                                                            /* set led */
-            res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_2, (uint8_t *)&prev, 1);       /* write led slot */
-            if (res)                                                                                                     /* check result */
-            {
-                handle->debug_print("max30102: write led slot failed.\n");                                               /* write led slot failed */
-               
-                return 1;                                                                                                /* return error */
-            }
-            
-            return 0;                                                                                                    /* success return 0 */
-        }
-        default :
-        {
-            handle->debug_print("max30102: slot is invalid.\n");                                                         /* slot is invalid */
+            handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
            
-            return 1;                                                                                                    /* return error */
+            return 1;                                                                                                /* return error */
         }
+        prev &= ~(0x7 << 0);                                                                                         /* clear config */
+        prev |= led << 0;                                                                                            /* set led */
+        res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_1, (uint8_t *)&prev, 1);       /* write led slot */
+        if (res != 0)                                                                                                /* check result */
+        {
+            handle->debug_print("max30102: write led slot failed.\n");                                               /* write led slot failed */
+           
+            return 1;                                                                                                /* return error */
+        }
+        
+        return 0;                                                                                                    /* success return 0 */
+    }
+    else if (slot == MAX30102_SLOT_2)                                                                                /* slot 2 */
+    {
+        res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_1, (uint8_t *)&prev, 1);        /* read led slot */
+        if (res != 0)                                                                                                /* check result */
+        {
+            handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
+           
+            return 1;                                                                                                /* return error */
+        }
+        prev &= ~(0x7 << 4);                                                                                         /* clear config */
+        prev |= led << 4;                                                                                            /* set led */
+        res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_1, (uint8_t *)&prev, 1);       /* write led slot */
+        if (res != 0)                                                                                                /* check result */
+        {
+            handle->debug_print("max30102: write led slot failed.\n");                                               /* write led slot failed */
+           
+            return 1;                                                                                                /* return error */
+        }
+        
+        return 0;                                                                                                    /* success return 0 */
+    }
+    else if (slot == MAX30102_SLOT_3)                                                                                /* slot 3 */
+    {
+        res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_2, (uint8_t *)&prev, 1);        /* read led slot */
+        if (res != 0)                                                                                                /* check result */
+        {
+            handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
+           
+            return 1;                                                                                                /* return error */
+        }
+        prev &= ~(0x7 << 0);                                                                                         /* clear config */
+        prev |= led << 0;                                                                                            /* set led */
+        res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_2, (uint8_t *)&prev, 1);       /* write led slot */
+        if (res != 0)                                                                                                /* check result */
+        {
+            handle->debug_print("max30102: write led slot failed.\n");                                               /* write led slot failed */
+           
+            return 1;                                                                                                /* return error */
+        }
+        
+        return 0;                                                                                                    /* success return 0 */
+    }
+    else if (slot == MAX30102_SLOT_4)                                                                                /* slot 4 */
+    {
+        res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_2, (uint8_t *)&prev, 1);        /* read led slot */
+        if (res != 0)                                                                                                /* check result */
+        {
+            handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
+           
+            return 1;                                                                                                /* return error */
+        }
+        prev &= ~(0x7 << 4);                                                                                         /* clear config */
+        prev |= led << 4;                                                                                            /* set led */
+        res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_2, (uint8_t *)&prev, 1);       /* write led slot */
+        if (res != 0)                                                                                                /* check result */
+        {
+            handle->debug_print("max30102: write led slot failed.\n");                                               /* write led slot failed */
+           
+            return 1;                                                                                                /* return error */
+        }
+        
+        return 0;                                                                                                    /* success return 0 */
+    }
+    else                                                                                                             /* unknown */
+    {
+        handle->debug_print("max30102: slot is invalid.\n");                                                         /* slot is invalid */
+       
+        return 1;                                                                                                    /* return error */
     }
 }
 
@@ -2088,78 +2084,75 @@ uint8_t max30102_set_slot(max30102_handle_t *handle, max30102_slot_t slot, max30
  */
 uint8_t max30102_get_slot(max30102_handle_t *handle, max30102_slot_t slot, max30102_led_t *led)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
-    if (handle == NULL)                                                                                                  /* check handle */
+    if (handle == NULL)                                                                                              /* check handle */
     {
-        return 2;                                                                                                        /* return error */
+        return 2;                                                                                                    /* return error */
     }
-    if (handle->inited != 1)                                                                                             /* check handle initialization */
+    if (handle->inited != 1)                                                                                         /* check handle initialization */
     {
-        return 3;                                                                                                        /* return error */
+        return 3;                                                                                                    /* return error */
     }
     
-    switch (slot)                                                                                                        /* check slot */
+    if (slot == MAX30102_SLOT_1)                                                                                     /* slot 1 */
     {
-        case MAX30102_SLOT_1 :                                                                                           /* slot 1 */
+        res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_1, (uint8_t *)&prev, 1);        /* read led slot */
+        if (res != 0)                                                                                                /* check result */
         {
-            res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_1, (uint8_t *)&prev, 1);        /* read led slot */
-            if (res)                                                                                                     /* check result */
-            {
-                handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
-               
-                return 1;                                                                                                /* return error */
-            }
-            *led = (max30102_led_t)((prev >> 0) & 0x7);                                                                  /* get led */
-            
-            return 0;                                                                                                    /* success return 0 */
-        }
-        case MAX30102_SLOT_2 :
-        {
-            res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_1, (uint8_t *)&prev, 1);        /* read led slot */
-            if (res)                                                                                                     /* check result */
-            {
-                handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
-               
-                return 1;                                                                                                /* return error */
-            }
-            *led = (max30102_led_t)((prev >> 4) & 0x7);                                                                  /* get led */
-            
-            return 0;                                                                                                    /* success return 0 */
-        }
-        case MAX30102_SLOT_3 :
-        {
-            res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_2, (uint8_t *)&prev, 1);        /* read led slot */
-            if (res)                                                                                                     /* check result */
-            {
-                handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
-               
-                return 1;                                                                                                /* return error */
-            }
-            *led = (max30102_led_t)((prev >> 0) & 0x7);                                                                  /* get led */
-            
-            return 0;                                                                                                    /* success return 0 */
-        }
-        case MAX30102_SLOT_4 :
-        {
-            res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_2, (uint8_t *)&prev, 1);        /* read led slot */
-            if (res)                                                                                                     /* check result */
-            {
-                handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
-               
-                return 1;                                                                                                /* return error */
-            }
-            *led = (max30102_led_t)((prev >> 4) & 0x7);                                                                  /* get led */
-            
-            return 0;                                                                                                    /* success return 0 */
-        }
-        default :
-        {
-            handle->debug_print("max30102: slot is invalid.\n");                                                         /* slot is invalid */
+            handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
            
-            return 1;                                                                                                    /* return error */
+            return 1;                                                                                                /* return error */
         }
+        *led = (max30102_led_t)((prev >> 0) & 0x7);                                                                  /* get led */
+        
+        return 0;                                                                                                    /* success return 0 */
+    }
+    else if (slot == MAX30102_SLOT_2)                                                                                /* slot 2 */
+    {
+        res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_1, (uint8_t *)&prev, 1);        /* read led slot */
+        if (res != 0)                                                                                                /* check result */
+        {
+            handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
+           
+            return 1;                                                                                                /* return error */
+        }
+        *led = (max30102_led_t)((prev >> 4) & 0x7);                                                                  /* get led */
+        
+        return 0;                                                                                                    /* success return 0 */
+    }
+    else if (slot == MAX30102_SLOT_3)                                                                                /* slot 3 */
+    {
+        res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_2, (uint8_t *)&prev, 1);        /* read led slot */
+        if (res != 0)                                                                                                /* check result */
+        {
+            handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
+           
+            return 1;                                                                                                /* return error */
+        }
+        *led = (max30102_led_t)((prev >> 0) & 0x7);                                                                  /* get led */
+        
+        return 0;                                                                                                    /* success return 0 */
+    }
+    else if (slot == MAX30102_SLOT_4)                                                                                /* slot 4 */
+    {
+        res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_2, (uint8_t *)&prev, 1);        /* read led slot */
+        if (res != 0)                                                                                                /* check result */
+        {
+            handle->debug_print("max30102: read led slot failed.\n");                                                /* read led slot failed */
+           
+            return 1;                                                                                                /* return error */
+        }
+        *led = (max30102_led_t)((prev >> 4) & 0x7);                                                                  /* get led */
+        
+        return 0;                                                                                                    /* success return 0 */
+    }
+    else                                                                                                             /* unknown */
+    {
+        handle->debug_print("max30102: slot is invalid.\n");                                                         /* slot is invalid */
+       
+        return 1;                                                                                                    /* return error */
     }
 }
 
@@ -2176,8 +2169,8 @@ uint8_t max30102_get_slot(max30102_handle_t *handle, max30102_slot_t slot, max30
  */
 uint8_t max30102_set_die_temperature(max30102_handle_t *handle, max30102_bool_t enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                  /* check handle */
     {
@@ -2189,7 +2182,7 @@ uint8_t max30102_set_die_temperature(max30102_handle_t *handle, max30102_bool_t 
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_DIE_TEMP_CONFIG, (uint8_t *)&prev, 1);         /* read die temp config */
-    if (res)                                                                                             /* check result */
+    if (res != 0)                                                                                        /* check result */
     {
         handle->debug_print("max30102: read die temp config failed.\n");                                 /* read die temp config failed */
        
@@ -2198,7 +2191,7 @@ uint8_t max30102_set_die_temperature(max30102_handle_t *handle, max30102_bool_t 
     prev &= ~(1 << 0);                                                                                   /* clear config */
     prev |= (enable << 0);                                                                               /* set bool */
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_DIE_TEMP_CONFIG, (uint8_t *)&prev, 1);        /* write die temp config */
-    if (res)                                                                                             /* check result */
+    if (res != 0)                                                                                        /* check result */
     {
         handle->debug_print("max30102: write die temp config failed.\n");                                /* write die temp config failed */
        
@@ -2221,8 +2214,8 @@ uint8_t max30102_set_die_temperature(max30102_handle_t *handle, max30102_bool_t 
  */
 uint8_t max30102_get_die_temperature(max30102_handle_t *handle, max30102_bool_t *enable)
 {
-    volatile uint8_t res;
-    volatile uint8_t prev;
+    uint8_t res;
+    uint8_t prev;
     
     if (handle == NULL)                                                                                  /* check handle */
     {
@@ -2234,7 +2227,7 @@ uint8_t max30102_get_die_temperature(max30102_handle_t *handle, max30102_bool_t 
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_DIE_TEMP_CONFIG, (uint8_t *)&prev, 1);         /* read die temp config */
-    if (res)                                                                                             /* check result */
+    if (res != 0)                                                                                        /* check result */
     {
         handle->debug_print("max30102: read die temp config failed.\n");                                 /* read die temp config failed */
        
@@ -2259,7 +2252,7 @@ uint8_t max30102_get_die_temperature(max30102_handle_t *handle, max30102_bool_t 
  */
 uint8_t max30102_get_id(max30102_handle_t *handle, uint8_t *revision_id, uint8_t *part_id)
 {
-    volatile uint8_t res;
+    uint8_t res;
     
     if (handle == NULL)                                                                                   /* check handle */
     {
@@ -2271,14 +2264,14 @@ uint8_t max30102_get_id(max30102_handle_t *handle, uint8_t *revision_id, uint8_t
     }
     
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_REVISION_ID, (uint8_t *)revision_id, 1);        /* read revision id */
-    if (res)                                                                                              /* check result */
+    if (res != 0)                                                                                         /* check result */
     {
         handle->debug_print("max30102: read revision id failed.\n");                                      /* read revision id failed */
        
         return 1;                                                                                         /* return error */
     }
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_PART_ID, (uint8_t *)part_id, 1);                /* read part id */
-    if (res)                                                                                              /* check result */
+    if (res != 0)                                                                                         /* check result */
     {
         handle->debug_print("max30102: read part id failed.\n");                                          /* read part id failed */
        
@@ -2312,7 +2305,7 @@ uint8_t max30102_set_reg(max30102_handle_t *handle, uint8_t reg, uint8_t *buf, u
         return 3;                                                  /* return error */
     }
     
-    if (handle->iic_write(MAX30102_ADDRESS, reg, buf, len))        /* write data */
+    if (handle->iic_write(MAX30102_ADDRESS, reg, buf, len) != 0)   /* write data */
     {
         return 1;                                                  /* return error */
     }
@@ -2346,7 +2339,7 @@ uint8_t max30102_get_reg(max30102_handle_t *handle, uint8_t reg, uint8_t *buf, u
         return 3;                                                 /* return error */
     }
     
-    if (handle->iic_read(MAX30102_ADDRESS, reg, buf, len))        /* read data */
+    if (handle->iic_read(MAX30102_ADDRESS, reg, buf, len) != 0)   /* read data */
     {
         return 1;                                                 /* return error */
     }

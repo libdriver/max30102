@@ -1,4 +1,4 @@
-[English](/README.md) | [ 简体中文](/README_zh-Hans.md) | [繁體中文](/README_zh-Hant.md)
+[English](/README.md) | [ 简体中文](/README_zh-Hans.md) | [繁體中文](/README_zh-Hant.md) | [日本語](/README_ja.md) | [Deutsch](/README_de.md) | [한국어](/README_ko.md)
 
 <div align=center>
 <img src="/doc/image/logo.png"/>
@@ -6,11 +6,11 @@
 
 ## LibDriver MAX30102
 
-[![API](https://img.shields.io/badge/api-reference-blue)](https://www.libdriver.com/docs/max30102/index.html) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](/LICENSE)
+[![MISRA](https://img.shields.io/badge/misra-compliant-brightgreen.svg)](/misra/README.md) [![API](https://img.shields.io/badge/api-reference-blue.svg)](https://www.libdriver.com/docs/max30102/index.html) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](/LICENSE)
 
 The MAX30102 is an integrated pulse oximetry and heart-rate monitor module. It includes internal LEDs, photodetectors, optical elements, and low-noise electronics with ambient light rejection. The MAX30102 provides a complete system solution to ease the design-in process for mobile and wearable devices.The MAX30102 operates on a single 1.8V power supply and a separate 3.3V power supply for the internal LEDs. Communication is through a standard I2C-compatible interface. The module can be shut down through software with zero standby current, allowing the power rails to remain powered at all times.It can be used in wearable devices, fitness assistant devices, smartphones, tablets and so on.
 
-LibDriver MAX30102 is the full function driver of MAX30102 launched by LibDriver. It provides fifo reading, id reading and other functions.
+LibDriver MAX30102 is the full function driver of MAX30102 launched by LibDriver. It provides fifo reading, id reading and other functions. LibDriver is MISRA compliant.
 
 ### Table of Contents
 
@@ -53,26 +53,26 @@ Add /src, /interface and /example to your project.
 static uint8_t gs_flag;
 static uint32_t gs_raw_red[32];
 static uint32_t gs_raw_ir[32];
-volatile uint8_t res;
-volatile uint32_t timeout;
-volatile uint32_t times;
+uint8_t res;
+uint32_t timeout;
+uint32_t times;
 uint8_t (*g_gpio_irq)(void) = NULL;
 
 ...
     
-uint8_t max30102_receive_callback(uint8_t type)
+void max30102_receive_callback(uint8_t type)
 {
     switch (type)
     {
         case MAX30102_INTERRUPT_STATUS_FIFO_FULL :
         {
-            volatile uint8_t res;
-            volatile uint8_t len;
+            uint8_t res;
+            uint8_t len;
             
             /* read data */
             len = 32;
             res = max30102_fifo_read((uint32_t *)gs_raw_red, (uint32_t *)gs_raw_ir, (uint8_t *)&len);
-            if (res)
+            if (res != 0)
             {
                 max30102_interface_debug_print("max30102: read failed.\n");
             }
@@ -107,11 +107,11 @@ uint8_t max30102_receive_callback(uint8_t type)
         }
         default :
         {
+            max30102_interface_debug_print("max30102: unknown code.\n");
+            
             break;
         }
     }
-    
-    return 0;
 }
 
 ...
@@ -119,7 +119,7 @@ uint8_t max30102_receive_callback(uint8_t type)
 /* set gpio */
 g_gpio_irq = max30102_fifo_irq_handler;
 res = gpio_interrupt_init();
-if (res)
+if (res != 0)
 {
     g_gpio_irq = NULL;
 
@@ -128,9 +128,9 @@ if (res)
 
 /* fifo init */
 res = max30102_fifo_init(max30102_receive_callback);
-if (res)
+if (res != 0)
 {
-    gpio_interrupt_deinit();
+    (void)gpio_interrupt_deinit();
     g_gpio_irq = NULL;
 
     return 1;
@@ -140,9 +140,9 @@ if (res)
 times = 3;
 gs_flag = 0;
 timeout = 5000;
-while (timeout)
+while (timeout != 0)
 {
-    if (gs_flag)
+    if (gs_flag != 0)
     {
         /* clear config */
         gs_flag = 0;
@@ -161,15 +161,15 @@ while (timeout)
 if (timeout == 0)
 {
     max30102_interface_debug_print("max30102: read timeout failed.\n");
-    max30102_fifo_deinit();
-    gpio_interrupt_deinit();
+    (void)max30102_fifo_deinit();
+    (void)gpio_interrupt_deinit();
     g_gpio_irq = NULL;
 
     return 1;
 }
 
-max30102_fifo_deinit();
-gpio_interrupt_deinit();
+(void)max30102_fifo_deinit();
+(void)gpio_interrupt_deinit();
 g_gpio_irq = NULL;
 
 return 0;

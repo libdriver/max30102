@@ -1,4 +1,4 @@
-[English](/README.md) | [ 简体中文](/README_zh-Hans.md) | [繁體中文](/README_zh-Hant.md)
+[English](/README.md) | [ 简体中文](/README_zh-Hans.md) | [繁體中文](/README_zh-Hant.md) | [日本語](/README_ja.md) | [Deutsch](/README_de.md) | [한국어](/README_ko.md)
 
 <div align=center>
 <img src="/doc/image/logo.png"/>
@@ -6,11 +6,11 @@
 
 ## LibDriver MAX30102
 
-[![API](https://img.shields.io/badge/api-reference-blue)](https://www.libdriver.com/docs/max30102/index.html) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](/LICENSE)
+[![MISRA](https://img.shields.io/badge/misra-compliant-brightgreen.svg)](/misra/README.md) [![API](https://img.shields.io/badge/api-reference-blue.svg)](https://www.libdriver.com/docs/max30102/index.html) [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](/LICENSE)
 
 MAX30102是一個集成的脈搏血氧儀和心率監測儀生物傳感器的模塊。它集成了多個LED、光電檢測器、光器件，以及帶環境光抑制的低噪聲電子電路。 MAX30102提供完備的系統方案，使移動及可穿戴設備的設計過程變得輕鬆。 MAX30102採用一個1.8V電源和一個獨立的3.3V用於內部LED的電源，標準的I2C兼容的通信接口。可通過軟件關斷模塊，待機電流為零，實現電源始終維持供電狀態。 MAX30102可用於穿戴設備，健身輔助設備，智能手機和平板電腦等。
 
-LibDriver MAX30102是LibDriver推出的MAX30102的全功能驅動，該驅動提供FIFO讀取，ID讀取等功能。
+LibDriver MAX30102是LibDriver推出的MAX30102的全功能驅動，該驅動提供FIFO讀取，ID讀取等功能並且它符合MISRA標準。
 
 ### 目錄
 
@@ -53,26 +53,26 @@ LibDriver MAX30102是LibDriver推出的MAX30102的全功能驅動，該驅動提
 static uint8_t gs_flag;
 static uint32_t gs_raw_red[32];
 static uint32_t gs_raw_ir[32];
-volatile uint8_t res;
-volatile uint32_t timeout;
-volatile uint32_t times;
+uint8_t res;
+uint32_t timeout;
+uint32_t times;
 uint8_t (*g_gpio_irq)(void) = NULL;
 
 ...
     
-uint8_t max30102_receive_callback(uint8_t type)
+void max30102_receive_callback(uint8_t type)
 {
     switch (type)
     {
         case MAX30102_INTERRUPT_STATUS_FIFO_FULL :
         {
-            volatile uint8_t res;
-            volatile uint8_t len;
+            uint8_t res;
+            uint8_t len;
             
             /* read data */
             len = 32;
             res = max30102_fifo_read((uint32_t *)gs_raw_red, (uint32_t *)gs_raw_ir, (uint8_t *)&len);
-            if (res)
+            if (res != 0)
             {
                 max30102_interface_debug_print("max30102: read failed.\n");
             }
@@ -107,11 +107,11 @@ uint8_t max30102_receive_callback(uint8_t type)
         }
         default :
         {
+            max30102_interface_debug_print("max30102: unknown code.\n");
+            
             break;
         }
     }
-    
-    return 0;
 }
 
 ...
@@ -119,7 +119,7 @@ uint8_t max30102_receive_callback(uint8_t type)
 /* set gpio */
 g_gpio_irq = max30102_fifo_irq_handler;
 res = gpio_interrupt_init();
-if (res)
+if (res != 0)
 {
     g_gpio_irq = NULL;
 
@@ -128,9 +128,9 @@ if (res)
 
 /* fifo init */
 res = max30102_fifo_init(max30102_receive_callback);
-if (res)
+if (res != 0)
 {
-    gpio_interrupt_deinit();
+    (void)gpio_interrupt_deinit();
     g_gpio_irq = NULL;
 
     return 1;
@@ -140,9 +140,9 @@ if (res)
 times = 3;
 gs_flag = 0;
 timeout = 5000;
-while (timeout)
+while (timeout != 0)
 {
-    if (gs_flag)
+    if (gs_flag != 0)
     {
         /* clear config */
         gs_flag = 0;
@@ -161,15 +161,15 @@ while (timeout)
 if (timeout == 0)
 {
     max30102_interface_debug_print("max30102: read timeout failed.\n");
-    max30102_fifo_deinit();
-    gpio_interrupt_deinit();
+    (void)max30102_fifo_deinit();
+    (void)gpio_interrupt_deinit();
     g_gpio_irq = NULL;
 
     return 1;
 }
 
-max30102_fifo_deinit();
-gpio_interrupt_deinit();
+(void)max30102_fifo_deinit();
+(void)gpio_interrupt_deinit();
 g_gpio_irq = NULL;
 
 return 0;
