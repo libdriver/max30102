@@ -65,7 +65,7 @@ void max30102_receive_callback(uint8_t type)
             /* read data */
             len = 32;
             res = max30102_fifo_read((uint32_t *)gs_raw_red, (uint32_t *)gs_raw_ir, (uint8_t *)&len);
-            if (res)
+            if (res != 0)
             {
                 max30102_interface_debug_print("max30102: read failed.\n");
             }
