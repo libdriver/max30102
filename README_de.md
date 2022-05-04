@@ -27,15 +27,15 @@ LibDriver MAX30102 ist der voll funktionsfähige Treiber von MAX30102, der von L
 
 /src enthält LibDriver MAX30102-Quelldateien.
 
-/interface enthält die plattformunabhängige Vorlage LibDriver MAX30102 IIC。
+/interface enthält die plattformunabhängige Vorlage LibDriver MAX30102 IIC.
 
-/test enthält den Testcode des LibDriver MAX30102-Treibers und dieser Code kann die erforderliche Funktion des Chips einfach testen。
+/test enthält den Testcode des LibDriver MAX30102-Treibers und dieser Code kann die erforderliche Funktion des Chips einfach testen.
 
 /example enthält LibDriver MAX30102-Beispielcode.
 
 /doc enthält das LibDriver MAX30102-Offlinedokument.
 
-/Datenblatt enthält MAX30102-Datenblatt。
+/Datenblatt enthält MAX30102-Datenblatt.
 
 /project enthält den allgemeinen Beispielcode für Linux- und MCU-Entwicklungsboards. Alle Projekte verwenden das Shell-Skript, um den Treiber zu debuggen, und die detaillierten Anweisungen finden Sie in der README.md jedes Projekts.
 
