@@ -50,6 +50,8 @@ LibDriver MAX30102는 LibDriver에서 출시한 MAX30102의 전체 기능 드라
 #### example fifo
 
 ```C
+#include "driver_max30102_fifo.h"
+
 static uint8_t gs_flag;
 static uint32_t gs_raw_red[32];
 static uint32_t gs_raw_ir[32];

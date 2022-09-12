@@ -50,6 +50,8 @@ LibDriver MAX30102是LibDriver推出的MAX30102的全功能驅動，該驅動提
 #### example fifo
 
 ```C
+#include "driver_max30102_fifo.h"
+
 static uint8_t gs_flag;
 static uint32_t gs_raw_red[32];
 static uint32_t gs_raw_ir[32];
