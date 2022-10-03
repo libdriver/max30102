@@ -27,15 +27,15 @@ LibDriver MAX30102 is the full function driver of MAX30102 launched by LibDriver
 
 /src includes LibDriver MAX30102 source files.
 
-/interface includes LibDriver MAX30102 IIC platform independent template。
+/interface includes LibDriver MAX30102 IIC platform independent template.
 
-/test includes LibDriver MAX30102 driver test code and this code can test the chip necessary function simply。
+/test includes LibDriver MAX30102 driver test code and this code can test the chip necessary function simply.
 
 /example includes LibDriver MAX30102 sample code.
 
 /doc includes LibDriver MAX30102 offline document.
 
-/datasheet includes MAX30102 datasheet。
+/datasheet includes MAX30102 datasheet.
 
 /project includes the common Linux and MCU development board sample code. All projects use the shell script to debug the driver and the detail instruction can be found in each project's README.md.
 
@@ -50,6 +50,8 @@ Add /src, /interface and /example to your project.
 #### example fifo
 
 ```C
+#include "driver_max30102_fifo.h"
+
 static uint8_t gs_flag;
 static uint32_t gs_raw_red[32];
 static uint32_t gs_raw_ir[32];
