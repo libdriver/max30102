@@ -38,12 +38,13 @@
 #include "driver_max30102_register_test.h"
 #include "driver_max30102_fifo_test.h"
 #include "gpio.h"
+#include <getopt.h>
 #include <stdlib.h>
 
 /**
  * @brief global var definition
  */
-static uint8_t gs_flag;                    /**< flag */
+static volatile uint8_t gs_flag;           /**< flag */
 static uint32_t gs_raw_red[32];            /**< raw red buffer */
 static uint32_t gs_raw_ir[32];             /**< raw ir buffer */
 uint8_t (*g_gpio_irq)(void) = NULL;        /**< irq function address */
@@ -119,218 +120,287 @@ void max30102_receive_callback(uint8_t type)
  */
 uint8_t max30102(uint8_t argc, char **argv)
 {
+    int c;
+    int longindex = 0;
+    const char short_options[] = "hipe:t:";
+    const struct option long_options[] =
+    {
+        {"help", no_argument, NULL, 'h'},
+        {"information", no_argument, NULL, 'i'},
+        {"port", no_argument, NULL, 'p'},
+        {"example", required_argument, NULL, 'e'},
+        {"test", required_argument, NULL, 't'},
+        {"times", required_argument, NULL, 1},
+        {NULL, 0, NULL, 0},
+    };
+    char type[32] = "unknow";
+    uint32_t times = 3;
+    
+    /* if no params */
     if (argc == 1)
     {
+        /* goto the help */
         goto help;
     }
-    else if (argc == 2)
+    
+    /* init 0 */
+    optind = 0;
+    
+    /* parse */
+    do
     {
-        if (strcmp("-i", argv[1]) == 0)
+        /* parse the args */
+        c = getopt_long(argc, argv, short_options, long_options, &longindex);
+        
+        /* judge the result */
+        switch (c)
         {
-            max30102_info_t info;
-            
-            /* print max30102 info */
-            max30102_info(&info);
-            max30102_interface_debug_print("max30102: chip is %s.\n", info.chip_name);
-            max30102_interface_debug_print("max30102: manufacturer is %s.\n", info.manufacturer_name);
-            max30102_interface_debug_print("max30102: interface is %s.\n", info.interface);
-            max30102_interface_debug_print("max30102: driver version is %d.%d.\n", info.driver_version/1000, (info.driver_version%1000)/100);
-            max30102_interface_debug_print("max30102: min supply voltage is %0.1fV.\n", info.supply_voltage_min_v);
-            max30102_interface_debug_print("max30102: max supply voltage is %0.1fV.\n", info.supply_voltage_max_v);
-            max30102_interface_debug_print("max30102: max current is %0.2fmA.\n", info.max_current_ma);
-            max30102_interface_debug_print("max30102: max temperature is %0.1fC.\n", info.temperature_max);
-            max30102_interface_debug_print("max30102: min temperature is %0.1fC.\n", info.temperature_min);
-            
-            return 0;
-        }
-        else if (strcmp("-p", argv[1]) == 0)
-        {
-            /* print pin connection */
-            max30102_interface_debug_print("max30102: SCL connected to GPIO3(BCM).\n");
-            max30102_interface_debug_print("max30102: SDA connected to GPIO2(BCM).\n");
-            max30102_interface_debug_print("max30102: INT connected to GPIO17(BCM).\n");
-            
-            return 0;
-        }
-        else if (strcmp("-h", argv[1]) == 0)
-        {
-            /* show max30102 help */
-            
-            help:
-            
-            max30102_interface_debug_print("max30102 -i\n\tshow max30102 chip and driver information.\n");
-            max30102_interface_debug_print("max30102 -h\n\tshow max30102 help.\n");
-            max30102_interface_debug_print("max30102 -p\n\tshow max30102 pin connections of the current board.\n");
-            max30102_interface_debug_print("max30102 -t reg\n\trun max30102 register test.\n");
-            max30102_interface_debug_print("max30102 -t fifo <times>\n\trun max30102 fifo test.times means test times.\n");
-            max30102_interface_debug_print("max30102 -c fifo <times>\n\trun max30102 fifo function.times means read times.\n");
-            
-            return 0;
-        }
-        else
-        {
-            return 5;
-        }
-    }
-    else if (argc == 3)
-    {
-        /* run test */
-        if (strcmp("-t", argv[1]) == 0)
-        {
-            /* reg test */
-            if (strcmp("reg", argv[2]) == 0)
+            /* help */
+            case 'h' :
             {
-                uint8_t res;
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "h");
                 
-                res = max30102_register_test();
-                if (res != 0)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return 0;
-                }
+                break;
             }
-            /* param is invalid */
-            else
+            
+            /* information */
+            case 'i' :
+            {
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "i");
+                
+                break;
+            }
+            
+            /* port */
+            case 'p' :
+            {
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "p");
+                
+                break;
+            }
+            
+            /* example */
+            case 'e' :
+            {
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "e_%s", optarg);
+                
+                break;
+            }
+            
+            /* test */
+            case 't' :
+            {
+                /* set the type */
+                memset(type, 0, sizeof(char) * 32);
+                snprintf(type, 32, "t_%s", optarg);
+                
+                break;
+            }
+            
+            /* running times */
+            case 1 :
+            {
+                /* set the times */
+                times = atol(optarg);
+                
+                break;
+            } 
+            
+            /* the end */
+            case -1 :
+            {
+                break;
+            }
+            
+            /* others */
+            default :
             {
                 return 5;
             }
         }
-        /* param is invalid */
+    } while (c != -1);
+    
+    /* run the function */
+    if (strcmp("t_reg", type) == 0)
+    {
+        uint8_t res;
+        
+        /* run reg test */
+        res = max30102_register_test();
+        if (res != 0)
+        {
+            return 1;
+        }
         else
         {
-            return 5;
+            return 0;
         }
     }
-    else if (argc == 4)
+    else if (strcmp("t_fifo", type) == 0)
     {
-        /* run test */
-        if (strcmp("-t", argv[1]) == 0)
+        uint8_t res;
+        
+        /* set gpio irq */
+        g_gpio_irq = max30102_fifo_test_irq_handler;
+        
+        /* gpio init */
+        res = gpio_interrupt_init();
+        if (res != 0)
         {
-            /* reg test */
-            if (strcmp("fifo", argv[2]) == 0)
-            {
-                uint8_t res;
-                
-                /* set gpio */
-                g_gpio_irq = max30102_fifo_test_irq_handler;
-                res = gpio_interrupt_init();
-                if (res != 0)
-                {
-                    g_gpio_irq = NULL;
-                    
-                    return 1;
-                }
-                
-                res = max30102_fifo_test(atoi(argv[3]));
-                if (res != 0)
-                {
-                    (void)gpio_interrupt_deinit();
-                    g_gpio_irq = NULL;
-                    
-                    return 1;
-                }
-                else
-                {
-                    (void)gpio_interrupt_deinit();
-                    g_gpio_irq = NULL;
-                    
-                    return 0;
-                }
-            }
-            /* param is invalid */
-            else
-            {
-                return 5;
-            }
+            g_gpio_irq = NULL;
+            
+            return 1;
         }
-        else if (strcmp("-c", argv[1]) == 0)
+        
+        /* run fifo test */
+        res = max30102_fifo_test(times);
+        if (res != 0)
         {
-            /* reg test */
-            if (strcmp("fifo", argv[2]) == 0)
+            (void)gpio_interrupt_deinit();
+            g_gpio_irq = NULL;
+            
+            return 1;
+        }
+        
+        /* gpio deinit */
+        (void)gpio_interrupt_deinit();
+        g_gpio_irq = NULL;
+        
+        return 0;
+    }
+    else if (strcmp("e_fifo", type) == 0)
+    {
+        uint8_t res;
+        uint32_t timeout;
+        uint32_t cnt;
+        
+        /* get times */
+        cnt = times;
+        
+        /* set gpio irq */
+        g_gpio_irq = max30102_fifo_irq_handler;
+        
+        /* gpio init */
+        res = gpio_interrupt_init();
+        if (res != 0)
+        {
+            g_gpio_irq = NULL;
+            
+            return 1;
+        }
+        
+        /* fifo init */
+        res = max30102_fifo_init(max30102_receive_callback);
+        if (res != 0)
+        {
+            (void)gpio_interrupt_deinit();
+            g_gpio_irq = NULL;
+            
+            return 1;
+        }
+        
+        /* param init  */
+        gs_flag = 0;
+        timeout = 5000;
+        
+        /* loop */
+        while (timeout != 0)
+        {
+            /* check the flag */
+            if (gs_flag != 0)
             {
-                uint8_t res;
-                uint32_t timeout;
-                uint32_t cnt, times;
+                max30102_interface_debug_print("max30102: %d/%d.\n", cnt - times + 1, cnt);
                 
-                /* get times */
-                times = atoi(argv[3]);
-                cnt = times;
-                
-                /* set gpio */
-                g_gpio_irq = max30102_fifo_irq_handler;
-                res = gpio_interrupt_init();
-                if (res != 0)
-                {
-                    g_gpio_irq = NULL;
-                    
-                    return 1;
-                }
-                
-                /* fifo init */
-                res = max30102_fifo_init(max30102_receive_callback);
-                if (res != 0)
-                {
-                    (void)gpio_interrupt_deinit();
-                    g_gpio_irq = NULL;
-                    
-                    return 1;
-                }
-                
-                /* read data */
+                /* clear config */
                 gs_flag = 0;
                 timeout = 5000;
-                while (timeout != 0)
+                times--;
+                if (times == 0)
                 {
-                    if (gs_flag != 0)
-                    {
-                        max30102_interface_debug_print("max30102: %d/%d.\n", cnt - times + 1, cnt);
-                        
-                        /* clear config */
-                        gs_flag = 0;
-                        timeout = 5000;
-                        times--;
-                        if (times == 0)
-                        {
-                            break;
-                        }
-                    }
-                    max30102_interface_delay_ms(1);
-                    timeout--;
+                    break;
                 }
-                
-                /* check timeout */
-                if (timeout == 0)
-                {
-                    max30102_interface_debug_print("max30102: read timeout failed.\n");
-                    (void)max30102_fifo_deinit();
-                    (void)gpio_interrupt_deinit();
-                    g_gpio_irq = NULL;
-                   
-                    return 1;
-                }
-                
-                (void)max30102_fifo_deinit();
-                (void)gpio_interrupt_deinit();
-                g_gpio_irq = NULL;
-                
-                return 0;
             }
-            /* param is invalid */
-            else
-            {
-                return 5;
-            }
+            
+            /* delay 1ms */
+            max30102_interface_delay_ms(1);
+            timeout--;
         }
-        /* param is invalid */
-        else
+        
+        /* check timeout */
+        if (timeout == 0)
         {
-            return 5;
+            max30102_interface_debug_print("max30102: read timeout failed.\n");
+            (void)max30102_fifo_deinit();
+            (void)gpio_interrupt_deinit();
+            g_gpio_irq = NULL;
+            
+            return 1;
         }
+        
+        /* deinit */
+        (void)max30102_fifo_deinit();
+        (void)gpio_interrupt_deinit();
+        g_gpio_irq = NULL;
+        
+        return 0; 
     }
-    /* param is invalid */
+    else if (strcmp("h", type) == 0)
+    {
+        help:
+        max30102_interface_debug_print("Usage:\n");
+        max30102_interface_debug_print("  max30102 (-i | --information)\n");
+        max30102_interface_debug_print("  max30102 (-h | --help)\n");
+        max30102_interface_debug_print("  max30102 (-p | --port)\n");
+        max30102_interface_debug_print("  max30102 (-t reg | --test=reg)\n");
+        max30102_interface_debug_print("  max30102 (-t fifo | --test=fifo) [--times=<num>]\n");
+        max30102_interface_debug_print("  max30102 (-e fifo | --example=fifo) [--times=<num>]\n");
+        max30102_interface_debug_print("\n");
+        max30102_interface_debug_print("Options:\n");
+        max30102_interface_debug_print("  -e <fifo>, --example=<fifo>    Run the driver example.\n");
+        max30102_interface_debug_print("  -h, --help                     Show the help.\n");
+        max30102_interface_debug_print("  -i, --information              Show the chip information.\n");
+        max30102_interface_debug_print("  -p, --port                     Display the pin connections of the current board.\n");
+        max30102_interface_debug_print("  -t <reg | fifo>, --test=<reg | fifo>\n");
+        max30102_interface_debug_print("                                 Run the driver test.\n");
+        max30102_interface_debug_print("      --times=<num>              Set the running times.([default: 3])\n");
+        
+        return 0;
+    }
+    else if (strcmp("i", type) == 0)
+    {
+        max30102_info_t info;
+        
+        /* print max30102 info */
+        max30102_info(&info);
+        max30102_interface_debug_print("max30102: chip is %s.\n", info.chip_name);
+        max30102_interface_debug_print("max30102: manufacturer is %s.\n", info.manufacturer_name);
+        max30102_interface_debug_print("max30102: interface is %s.\n", info.interface);
+        max30102_interface_debug_print("max30102: driver version is %d.%d.\n", info.driver_version / 1000, (info.driver_version % 1000) / 100);
+        max30102_interface_debug_print("max30102: min supply voltage is %0.1fV.\n", info.supply_voltage_min_v);
+        max30102_interface_debug_print("max30102: max supply voltage is %0.1fV.\n", info.supply_voltage_max_v);
+        max30102_interface_debug_print("max30102: max current is %0.2fmA.\n", info.max_current_ma);
+        max30102_interface_debug_print("max30102: max temperature is %0.1fC.\n", info.temperature_max);
+        max30102_interface_debug_print("max30102: min temperature is %0.1fC.\n", info.temperature_min);
+        
+        return 0;
+    }
+    else if (strcmp("p", type) == 0)
+    {
+        /* print pin connection */
+        max30102_interface_debug_print("max30102: SCL connected to GPIO3(BCM).\n");
+        max30102_interface_debug_print("max30102: SDA connected to GPIO2(BCM).\n");
+        max30102_interface_debug_print("max30102: INT connected to GPIO17(BCM).\n");
+        
+        return 0;
+    }
     else
     {
         return 5;
