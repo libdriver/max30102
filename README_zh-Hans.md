@@ -179,13 +179,13 @@ return 0;
 
 ### 文档
 
-在线文档: https://www.libdriver.com/docs/max30102/index.html
+在线文档: [https://www.libdriver.com/docs/max30102/index.html](https://www.libdriver.com/docs/max30102/index.html)。
 
-离线文档: /doc/html/index.html
+离线文档: /doc/html/index.html。
 
 ### 贡献
 
-请联系lishifenging@outlook.com
+请参考CONTRIBUTING.md。
 
 ### 版权
 
@@ -201,4 +201,4 @@ MIT 许可证（MIT）
 
 ### 联系我们
 
-请联系lishifenging@outlook.com
+请联系lishifenging@outlook.com。

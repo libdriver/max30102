@@ -174,10 +174,10 @@ typedef enum
  */
 typedef struct max30102_handle_s
 {
-    uint8_t (*iic_init)(void);                                                          /**< point to a iic_init function address */
-    uint8_t (*iic_deinit)(void);                                                        /**< point to a iic_deinit function address */
-    uint8_t (*iic_read)(uint8_t addr, uint8_t reg, uint8_t *buf, uint16_t len);         /**< point to a iic_read function address */
-    uint8_t (*iic_write)(uint8_t addr, uint8_t reg, uint8_t *buf, uint16_t len);        /**< point to a iic_write function address */
+    uint8_t (*iic_init)(void);                                                          /**< point to an iic_init function address */
+    uint8_t (*iic_deinit)(void);                                                        /**< point to an iic_deinit function address */
+    uint8_t (*iic_read)(uint8_t addr, uint8_t reg, uint8_t *buf, uint16_t len);         /**< point to an iic_read function address */
+    uint8_t (*iic_write)(uint8_t addr, uint8_t reg, uint8_t *buf, uint16_t len);        /**< point to an iic_write function address */
     void (*receive_callback)(uint8_t type);                                             /**< point to a receive_callback function address */
     void (*delay_ms)(uint32_t ms);                                                      /**< point to a delay_ms function address */
     void (*debug_print)(const char *const fmt, ...);                                    /**< point to a debug_print function address */
@@ -226,7 +226,7 @@ typedef struct max30102_info_s
 /**
  * @brief     link iic_init function
  * @param[in] HANDLE points to a max30102 handle structure
- * @param[in] FUC points to a iic_init function address
+ * @param[in] FUC points to an iic_init function address
  * @note      none
  */
 #define DRIVER_MAX30102_LINK_IIC_INIT(HANDLE, FUC)          (HANDLE)->iic_init = FUC
@@ -234,7 +234,7 @@ typedef struct max30102_info_s
 /**
  * @brief     link iic_deinit function
  * @param[in] HANDLE points to a max30102 handle structure
- * @param[in] FUC points to a iic_deinit function address
+ * @param[in] FUC points to an iic_deinit function address
  * @note      none
  */
 #define DRIVER_MAX30102_LINK_IIC_DEINIT(HANDLE, FUC)        (HANDLE)->iic_deinit = FUC
@@ -242,7 +242,7 @@ typedef struct max30102_info_s
 /**
  * @brief     link iic_read function
  * @param[in] HANDLE points to a max30102 handle structure
- * @param[in] FUC points to a iic_read function address
+ * @param[in] FUC points to an iic_read function address
  * @note      none
  */
 #define DRIVER_MAX30102_LINK_IIC_READ(HANDLE, FUC)          (HANDLE)->iic_read = FUC
@@ -250,7 +250,7 @@ typedef struct max30102_info_s
 /**
  * @brief     link iic_write function
  * @param[in] HANDLE points to a max30102 handle structure
- * @param[in] FUC points to a iic_write function address
+ * @param[in] FUC points to an iic_write function address
  * @note      none
  */
 #define DRIVER_MAX30102_LINK_IIC_WRITE(HANDLE, FUC)         (HANDLE)->iic_write = FUC
@@ -332,7 +332,7 @@ uint8_t max30102_deinit(max30102_handle_t *handle);
  * @brief         read the data
  * @param[in]     *handle points to a max30102 handle structure
  * @param[out]    *raw_red points to a red raw data buffer
- * @param[out]    *raw_ir points to a ir raw data buffer
+ * @param[out]    *raw_ir points to an ir raw data buffer
  * @param[in,out] *len points to a length buffer
  * @return        status code
  *                - 0 success
@@ -679,7 +679,7 @@ uint8_t max30102_set_spo2_adc_range(max30102_handle_t *handle, max30102_spo2_adc
 /**
  * @brief      get the spo2 adc range
  * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *range points to a spo2 adc range buffer
+ * @param[out] *range points to an spo2 adc range buffer
  * @return     status code
  *             - 0 success
  *             - 1 get spo2 adc range failed
@@ -705,7 +705,7 @@ uint8_t max30102_set_spo2_sample_rate(max30102_handle_t *handle, max30102_spo2_s
 /**
  * @brief      get the spo2 sample rate
  * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *rate points to a spo2 sample rate buffer
+ * @param[out] *rate points to an spo2 sample rate buffer
  * @return     status code
  *             - 0 success
  *             - 1 get spo2 sample rate failed
@@ -731,7 +731,7 @@ uint8_t max30102_set_adc_resolution(max30102_handle_t *handle, max30102_adc_reso
 /**
  * @brief      get the adc resolution
  * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *resolution points to a adc resolution buffer
+ * @param[out] *resolution points to an adc resolution buffer
  * @return     status code
  *             - 0 success
  *             - 1 get adc resolution failed
@@ -783,7 +783,7 @@ uint8_t max30102_set_led_ir_pulse_amplitude(max30102_handle_t *handle, uint8_t a
 /**
  * @brief      get the ir led pulse amplitude
  * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *amp points to a ir led pulse amplitude buffer
+ * @param[out] *amp points to an ir led pulse amplitude buffer
  * @return     status code
  *             - 0 success
  *             - 1 get led ir pulse amplitude failed

@@ -381,7 +381,7 @@ uint8_t max30102_irq_handler(max30102_handle_t *handle)
  * @brief         read the data
  * @param[in]     *handle points to a max30102 handle structure
  * @param[out]    *raw_red points to a red raw data buffer
- * @param[out]    *raw_ir points to a ir raw data buffer
+ * @param[out]    *raw_ir points to an ir raw data buffer
  * @param[in,out] *len points to a length buffer
  * @return        status code
  *                - 0 success
@@ -1623,7 +1623,7 @@ uint8_t max30102_set_spo2_adc_range(max30102_handle_t *handle, max30102_spo2_adc
 /**
  * @brief      get the spo2 adc range
  * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *range points to a spo2 adc range buffer
+ * @param[out] *range points to an spo2 adc range buffer
  * @return     status code
  *             - 0 success
  *             - 1 get spo2 adc range failed
@@ -1705,7 +1705,7 @@ uint8_t max30102_set_spo2_sample_rate(max30102_handle_t *handle, max30102_spo2_s
 /**
  * @brief      get the spo2 sample rate
  * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *rate points to a spo2 sample rate buffer
+ * @param[out] *rate points to an spo2 sample rate buffer
  * @return     status code
  *             - 0 success
  *             - 1 get spo2 sample rate failed
@@ -1787,7 +1787,7 @@ uint8_t max30102_set_adc_resolution(max30102_handle_t *handle, max30102_adc_reso
 /**
  * @brief      get the adc resolution
  * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *resolution points to a adc resolution buffer
+ * @param[out] *resolution points to an adc resolution buffer
  * @return     status code
  *             - 0 success
  *             - 1 get adc resolution failed
@@ -1929,7 +1929,7 @@ uint8_t max30102_set_led_ir_pulse_amplitude(max30102_handle_t *handle, uint8_t a
 /**
  * @brief      get the ir led pulse amplitude
  * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *amp points to a ir led pulse amplitude buffer
+ * @param[out] *amp points to an ir led pulse amplitude buffer
  * @return     status code
  *             - 0 success
  *             - 1 get led ir pulse amplitude failed
