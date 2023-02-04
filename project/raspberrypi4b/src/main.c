@@ -101,7 +101,7 @@ void max30102_receive_callback(uint8_t type)
         }
         default :
         {
-            max30102_interface_debug_print("max30102: unknow code.\n");
+            max30102_interface_debug_print("max30102: unknown code.\n");
             
             break;
         }
@@ -133,7 +133,7 @@ uint8_t max30102(uint8_t argc, char **argv)
         {"times", required_argument, NULL, 1},
         {NULL, 0, NULL, 0},
     };
-    char type[33] = "unknow";
+    char type[33] = "unknown";
     uint32_t times = 3;
     
     /* if no params */
@@ -434,7 +434,7 @@ int main(uint8_t argc, char **argv)
     }
     else
     {
-        max30102_interface_debug_print("max30102: unknow status code.\n");
+        max30102_interface_debug_print("max30102: unknown status code.\n");
     }
 
     return 0;

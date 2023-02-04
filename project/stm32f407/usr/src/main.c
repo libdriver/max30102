@@ -132,7 +132,7 @@ void max30102_receive_callback(uint8_t type)
         }
         default :
         {
-            max30102_interface_debug_print("max30102: unknow code.\n");
+            max30102_interface_debug_print("max30102: unknown code.\n");
 
             break;
         }
@@ -164,7 +164,7 @@ uint8_t max30102(uint8_t argc, char **argv)
         {"times", required_argument, NULL, 1},
         {NULL, 0, NULL, 0},
     };
-    char type[33] = "unknow";
+    char type[33] = "unknown";
     uint32_t times = 3;
 
     /* if no params */
@@ -455,7 +455,7 @@ int main(void)
     /* uart init */
     uart_init(115200);
 
-    /* shell init && register max30102 fuction */
+    /* shell init && register max30102 function */
     shell_init();
     shell_register("max30102", max30102);
     uart_print("max30102: welcome to libdriver max30102.\n");
@@ -478,7 +478,7 @@ int main(void)
             }
             else if (res == 2)
             {
-                uart_print("max30102: unknow command.\n");
+                uart_print("max30102: unknown command.\n");
             }
             else if (res == 3)
             {
@@ -494,7 +494,7 @@ int main(void)
             }
             else
             {
-                uart_print("max30102: unknow status code.\n");
+                uart_print("max30102: unknown status code.\n");
             }
             uart_flush();
         }

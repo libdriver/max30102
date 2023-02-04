@@ -200,7 +200,7 @@ uint8_t max30102_init(max30102_handle_t *handle)
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_FIFO_READ_POINTER, (uint8_t *)&prev, 1);         /* write fifo read pointer */
     if (res != 0)                                                                                           /* check result */
     {
-        handle->debug_print("max30102: wirte fifo read pointer failed.\n");                                 /* write fifo read pointer failed */
+        handle->debug_print("max30102: write fifo read pointer failed.\n");                                 /* write fifo read pointer failed */
         (void)handle->iic_deinit();                                                                         /* iic deinit */
         
         return 6;                                                                                           /* return error */
@@ -208,7 +208,7 @@ uint8_t max30102_init(max30102_handle_t *handle)
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_FIFO_WRITE_POINTER, (uint8_t *)&prev, 1);        /* write fifo write pointer */
     if (res != 0)                                                                                           /* check result */
     {
-        handle->debug_print("max30102: wirte fifo write pointer failed.\n");                                /* write fifo write pointer failed */
+        handle->debug_print("max30102: write fifo write pointer failed.\n");                                /* write fifo write pointer failed */
         (void)handle->iic_deinit();                                                                         /* iic deinit */
         
         return 6;                                                                                           /* return error */
@@ -837,7 +837,7 @@ uint8_t max30102_set_fifo_write_pointer(max30102_handle_t *handle, uint8_t point
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_FIFO_WRITE_POINTER, (uint8_t *)&prev, 1);        /* write fifo write pointer */
     if (res != 0)                                                                                           /* check result */
     {
-        handle->debug_print("max30102: wirte fifo write pointer failed.\n");                                /* write fifo write pointer failed */
+        handle->debug_print("max30102: write fifo write pointer failed.\n");                                /* write fifo write pointer failed */
        
         return 1;                                                                                           /* return error */
     }
@@ -854,7 +854,7 @@ uint8_t max30102_set_fifo_write_pointer(max30102_handle_t *handle, uint8_t point
  *             - 1 get fifo write pointer failed
  *             - 2 handle is NULL
  *             - 3 handle is not initialized
- * @note       nonw
+ * @note       none
  */
 uint8_t max30102_get_fifo_write_pointer(max30102_handle_t *handle, uint8_t *pointer)
 {
@@ -935,7 +935,7 @@ uint8_t max30102_set_fifo_overflow_counter(max30102_handle_t *handle, uint8_t co
  *             - 1 get fifo overflow counter failed
  *             - 2 handle is NULL
  *             - 3 handle is not initialized
- * @note       nonw
+ * @note       none
  */
 uint8_t max30102_get_fifo_overflow_counter(max30102_handle_t *handle, uint8_t *counter)
 {
@@ -999,7 +999,7 @@ uint8_t max30102_set_fifo_read_pointer(max30102_handle_t *handle, uint8_t pointe
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_FIFO_READ_POINTER, (uint8_t *)&prev, 1);        /* write fifo read pointer */
     if (res != 0)                                                                                          /* check result */
     {
-        handle->debug_print("max30102: wirte fifo read pointer failed.\n");                                /* write fifo read pointer failed */
+        handle->debug_print("max30102: write fifo read pointer failed.\n");                                /* write fifo read pointer failed */
        
         return 1;                                                                                          /* return error */
     }
@@ -1016,7 +1016,7 @@ uint8_t max30102_set_fifo_read_pointer(max30102_handle_t *handle, uint8_t pointe
  *             - 1 get fifo read pointer failed
  *             - 2 handle is NULL
  *             - 3 handle is not initialized
- * @note       nonw
+ * @note       none
  */
 uint8_t max30102_get_fifo_read_pointer(max30102_handle_t *handle, uint8_t *pointer)
 {
@@ -1071,7 +1071,7 @@ uint8_t max30102_set_fifo_data(max30102_handle_t *handle, uint8_t data)
     res = handle->iic_write(MAX30102_ADDRESS, MAX30102_REG_FIFO_DATA_REGISTER, (uint8_t *)&data, 1);        /* write fifo data register */
     if (res != 0)                                                                                           /* check result */
     {
-        handle->debug_print("max30102: wirte fifo data register failed.\n");                                /* write fifo data register failed */
+        handle->debug_print("max30102: write fifo data register failed.\n");                                /* write fifo data register failed */
        
         return 1;                                                                                           /* return error */
     }
@@ -2382,7 +2382,7 @@ uint8_t max30102_info(max30102_info_t *info)
     info->max_current_ma = MAX_CURRENT;                             /* set maximum current */
     info->temperature_max = TEMPERATURE_MAX;                        /* set minimal temperature */
     info->temperature_min = TEMPERATURE_MIN;                        /* set maximum temperature */
-    info->driver_version = DRIVER_VERSION;                          /* set driver verison */
+    info->driver_version = DRIVER_VERSION;                          /* set driver version */
     
     return 0;                                                       /* success return 0 */
 }
