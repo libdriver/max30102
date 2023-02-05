@@ -113,7 +113,7 @@ static void a_max30102_interface_test_receive_callback(uint8_t type)
         }
         default :
         {
-            max30102_interface_debug_print("max30102: unknow code.\n");
+            max30102_interface_debug_print("max30102: unknown code.\n");
 
             break;
         }

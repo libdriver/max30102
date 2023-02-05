@@ -436,7 +436,7 @@ uint8_t max30102_set_fifo_write_pointer(max30102_handle_t *handle, uint8_t point
  *             - 1 get fifo write pointer failed
  *             - 2 handle is NULL
  *             - 3 handle is not initialized
- * @note       nonw
+ * @note       none
  */
 uint8_t max30102_get_fifo_write_pointer(max30102_handle_t *handle, uint8_t *pointer);
 
@@ -463,7 +463,7 @@ uint8_t max30102_set_fifo_overflow_counter(max30102_handle_t *handle, uint8_t co
  *             - 1 get fifo overflow counter failed
  *             - 2 handle is NULL
  *             - 3 handle is not initialized
- * @note       nonw
+ * @note       none
  */
 uint8_t max30102_get_fifo_overflow_counter(max30102_handle_t *handle, uint8_t *counter);
 
@@ -490,7 +490,7 @@ uint8_t max30102_set_fifo_read_pointer(max30102_handle_t *handle, uint8_t pointe
  *             - 1 get fifo read pointer failed
  *             - 2 handle is NULL
  *             - 3 handle is not initialized
- * @note       nonw
+ * @note       none
  */
 uint8_t max30102_get_fifo_read_pointer(max30102_handle_t *handle, uint8_t *pointer);
 
