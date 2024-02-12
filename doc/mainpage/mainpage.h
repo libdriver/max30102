@@ -1,6 +1,6 @@
 /**
  * @mainpage  LibDriver MAX30102
- * @brief     libdriver max30102 is a full function driver of max30102 and it can run in both MCU and Linux platform.
+ * @brief     LibDriver MAX30102 is a full function driver of MAX30102 and it can run in both MCU and Linux platform.
  * @version   1.0.0
  * @author    Shifeng Li
  *
