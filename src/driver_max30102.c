@@ -79,7 +79,7 @@
 
 /**
  * @brief     initialize the chip
- * @param[in] *handle points to a max30102 handle structure
+ * @param[in] *handle pointer to a max30102 handle structure
  * @return    status code
  *            - 0 success
  *            - 1 iic initialization failed
@@ -228,7 +228,7 @@ uint8_t max30102_init(max30102_handle_t *handle)
 
 /**
  * @brief     close the chip
- * @param[in] *handle points to a max30102 handle structure
+ * @param[in] *handle pointer to a max30102 handle structure
  * @return    status code
  *            - 0 success
  *            - 1 iic deinit failed
@@ -281,7 +281,7 @@ uint8_t max30102_deinit(max30102_handle_t *handle)
 
 /**
  * @brief     irq handler
- * @param[in] *handle points to a max30102 handle structure
+ * @param[in] *handle pointer to a max30102 handle structure
  * @return    status code
  *            - 0 success
  *            - 1 run failed
@@ -379,10 +379,10 @@ uint8_t max30102_irq_handler(max30102_handle_t *handle)
 
 /**
  * @brief         read the data
- * @param[in]     *handle points to a max30102 handle structure
- * @param[out]    *raw_red points to a red raw data buffer
- * @param[out]    *raw_ir points to an ir raw data buffer
- * @param[in,out] *len points to a length buffer
+ * @param[in]     *handle pointer to a max30102 handle structure
+ * @param[out]    *raw_red pointer to a red raw data buffer
+ * @param[out]    *raw_ir pointer to an ir raw data buffer
+ * @param[in,out] *len pointer to a length buffer
  * @return        status code
  *                - 0 success
  *                - 1 read failed
@@ -538,9 +538,9 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
 
 /**
  * @brief      read the temperature
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *raw points to a raw data buffer
- * @param[out] *temp points to a converted temperature buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *raw pointer to a raw data buffer
+ * @param[out] *temp pointer to a converted temperature buffer
  * @return     status code
  *             - 0 success
  *             - 1 read temperature failed
@@ -625,9 +625,9 @@ uint8_t max30102_read_temperature(max30102_handle_t *handle, uint16_t *raw, floa
 
 /**
  * @brief      get the interrupt status
- * @param[in]  *handle points to a max30102 handle structure
- * @param[in]  status is the interrupt status
- * @param[out] *enable points to a bool value buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[in]  status interrupt status
+ * @param[out] *enable pointer to a bool value buffer
  * @return     status code
  *             - 0 success
  *             - 1 get interrupt status failed
@@ -679,9 +679,9 @@ uint8_t max30102_get_interrupt_status(max30102_handle_t *handle, max30102_interr
 
 /**
  * @brief     set the interrupt bool
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] type is the interrupt type
- * @param[in] enable is a bool value
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] type interrupt type
+ * @param[in] enable bool value
  * @return    status code
  *            - 0 success
  *            - 1 set interrupt failed
@@ -749,9 +749,9 @@ uint8_t max30102_set_interrupt(max30102_handle_t *handle, max30102_interrupt_t t
 
 /**
  * @brief      get the interrupt bool
- * @param[in]  *handle points to a max30102 handle structure
- * @param[in]  type is the interrupt type
- * @param[out] *enable points to a bool value buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[in]  type interrupt type
+ * @param[out] *enable pointer to a bool value buffer
  * @return     status code
  *             - 0 success
  *             - 1 get interrupt failed
@@ -803,8 +803,8 @@ uint8_t max30102_get_interrupt(max30102_handle_t *handle, max30102_interrupt_t t
 
 /**
  * @brief     set the fifo write pointer
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] pointer is the written pointer
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] pointer written pointer
  * @return    status code
  *            - 0 success
  *            - 1 set fifo write pointer failed
@@ -847,8 +847,8 @@ uint8_t max30102_set_fifo_write_pointer(max30102_handle_t *handle, uint8_t point
 
 /**
  * @brief      get the fifo write pointer
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *pointer points to a pointer buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *pointer pointer to a pointer buffer
  * @return     status code
  *             - 0 success
  *             - 1 get fifo write pointer failed
@@ -884,8 +884,8 @@ uint8_t max30102_get_fifo_write_pointer(max30102_handle_t *handle, uint8_t *poin
 
 /**
  * @brief     set the fifo overflow counter
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] counter is the overflow counter
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] counter overflow counter
  * @return    status code
  *            - 0 success
  *            - 1 set fifo overflow counter failed
@@ -928,8 +928,8 @@ uint8_t max30102_set_fifo_overflow_counter(max30102_handle_t *handle, uint8_t co
 
 /**
  * @brief      get the fifo overflow counter
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *counter points to a counter buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *counter pointer to a counter buffer
  * @return     status code
  *             - 0 success
  *             - 1 get fifo overflow counter failed
@@ -965,8 +965,8 @@ uint8_t max30102_get_fifo_overflow_counter(max30102_handle_t *handle, uint8_t *c
 
 /**
  * @brief     set the fifo read pointer
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] pointer is the read pointer
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] pointer read pointer
  * @return    status code
  *            - 0 success
  *            - 1 set fifo read pointer failed
@@ -1009,8 +1009,8 @@ uint8_t max30102_set_fifo_read_pointer(max30102_handle_t *handle, uint8_t pointe
 
 /**
  * @brief      get the fifo read pointer
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *pointer points to a pointer buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *pointer pointer to a pointer buffer
  * @return     status code
  *             - 0 success
  *             - 1 get fifo read pointer failed
@@ -1046,8 +1046,8 @@ uint8_t max30102_get_fifo_read_pointer(max30102_handle_t *handle, uint8_t *point
 
 /**
  * @brief     set the fifo data
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] data is the fifo data
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] data fifo data
  * @return    status code
  *            - 0 success
  *            - 1 set fifo data failed
@@ -1081,8 +1081,8 @@ uint8_t max30102_set_fifo_data(max30102_handle_t *handle, uint8_t data)
 
 /**
  * @brief      get the fifo data
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *data points to a fifo data buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *data pointer to a fifo data buffer
  * @return     status code
  *             - 0 success
  *             - 1 get fifo data failed
@@ -1116,8 +1116,8 @@ uint8_t max30102_get_fifo_data(max30102_handle_t *handle, uint8_t *data)
 
 /**
  * @brief     set the fifo sample averaging
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] sample is the fifo sample averaging
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] sample fifo sample averaging
  * @return    status code
  *            - 0 success
  *            - 1 set fifo sample averaging failed
@@ -1161,8 +1161,8 @@ uint8_t max30102_set_fifo_sample_averaging(max30102_handle_t *handle, max30102_s
 
 /**
  * @brief      get the fifo sample averaging
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *sample points to a fifo sample averaging buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *sample pointer to a fifo sample averaging buffer
  * @return     status code
  *             - 0 success
  *             - 1 get fifo sample averaging failed
@@ -1198,8 +1198,8 @@ uint8_t max30102_get_fifo_sample_averaging(max30102_handle_t *handle, max30102_s
 
 /**
  * @brief     enable or disable the fifo roll 
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] enable is a bool value
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] enable bool value
  * @return    status code
  *            - 0 success
  *            - 1 set fifo roll failed
@@ -1243,8 +1243,8 @@ uint8_t max30102_set_fifo_roll(max30102_handle_t *handle, max30102_bool_t enable
 
 /**
  * @brief      get the fifo roll status
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *enable points to a bool value buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *enable pointer to a bool value buffer
  * @return     status code
  *             - 0 success
  *             - 1 get fifo roll failed
@@ -1280,8 +1280,8 @@ uint8_t max30102_get_fifo_roll(max30102_handle_t *handle, max30102_bool_t *enabl
 
 /**
  * @brief     set the fifo almost full value
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] value is the fifo almost full value
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] value fifo almost full value
  * @return    status code
  *            - 0 success
  *            - 1 set fifo almost full failed
@@ -1332,8 +1332,8 @@ uint8_t max30102_set_fifo_almost_full(max30102_handle_t *handle, uint8_t value)
 
 /**
  * @brief      get the fifo almost full value
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *value points to a fifo almost full value buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *value pointer to a fifo almost full value buffer
  * @return     status code
  *             - 0 success
  *             - 1 get fifo almost full failed
@@ -1369,8 +1369,8 @@ uint8_t max30102_get_fifo_almost_full(max30102_handle_t *handle, uint8_t *value)
 
 /**
  * @brief     set the shutdown
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] enable is a bool value
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] enable bool value
  * @return    status code
  *            - 0 success
  *            - 1 set shutdown failed
@@ -1414,8 +1414,8 @@ uint8_t max30102_set_shutdown(max30102_handle_t *handle, max30102_bool_t enable)
 
 /**
  * @brief      get the shutdown
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *enable points to a bool value buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *enable pointer to a bool value buffer
  * @return     status code
  *             - 0 success
  *             - 1 get shutdown failed
@@ -1451,7 +1451,7 @@ uint8_t max30102_get_shutdown(max30102_handle_t *handle, max30102_bool_t *enable
 
 /**
  * @brief     reset the chip
- * @param[in] *handle points to a max30102 handle structure
+ * @param[in] *handle pointer to a max30102 handle structure
  * @return    status code
  *            - 0 success
  *            - 1 reset failed
@@ -1495,8 +1495,8 @@ uint8_t max30102_reset(max30102_handle_t *handle)
 
 /**
  * @brief     set the mode
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] mode is the chip mode
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] mode chip mode
  * @return    status code
  *            - 0 success
  *            - 1 set mode failed
@@ -1540,8 +1540,8 @@ uint8_t max30102_set_mode(max30102_handle_t *handle, max30102_mode_t mode)
 
 /**
  * @brief      get the mode
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *mode points to a chip mode buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *mode pointer to a chip mode buffer
  * @return     status code
  *             - 0 success
  *             - 1 get mode failed
@@ -1577,8 +1577,8 @@ uint8_t max30102_get_mode(max30102_handle_t *handle, max30102_mode_t *mode)
 
 /**
  * @brief     set the spo2 adc range
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] range is the spo2 adc range
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] range spo2 adc range
  * @return    status code
  *            - 0 success
  *            - 1 set spo2 adc range failed
@@ -1622,8 +1622,8 @@ uint8_t max30102_set_spo2_adc_range(max30102_handle_t *handle, max30102_spo2_adc
 
 /**
  * @brief      get the spo2 adc range
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *range points to an spo2 adc range buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *range pointer to an spo2 adc range buffer
  * @return     status code
  *             - 0 success
  *             - 1 get spo2 adc range failed
@@ -1659,8 +1659,8 @@ uint8_t max30102_get_spo2_adc_range(max30102_handle_t *handle, max30102_spo2_adc
 
 /**
  * @brief     set the spo2 sample rate
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] rate is the spo2 sample rate
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] rate spo2 sample rate
  * @return    status code
  *            - 0 success
  *            - 1 set spo2 sample rate failed
@@ -1704,8 +1704,8 @@ uint8_t max30102_set_spo2_sample_rate(max30102_handle_t *handle, max30102_spo2_s
 
 /**
  * @brief      get the spo2 sample rate
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *rate points to an spo2 sample rate buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *rate pointer to an spo2 sample rate buffer
  * @return     status code
  *             - 0 success
  *             - 1 get spo2 sample rate failed
@@ -1741,8 +1741,8 @@ uint8_t max30102_get_spo2_sample_rate(max30102_handle_t *handle, max30102_spo2_s
 
 /**
  * @brief     set the adc resolution
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] resolution is the adc resolution
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] resolution adc resolution
  * @return    status code
  *            - 0 success
  *            - 1 set adc resolution failed
@@ -1786,8 +1786,8 @@ uint8_t max30102_set_adc_resolution(max30102_handle_t *handle, max30102_adc_reso
 
 /**
  * @brief      get the adc resolution
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *resolution points to an adc resolution buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *resolution pointer to an adc resolution buffer
  * @return     status code
  *             - 0 success
  *             - 1 get adc resolution failed
@@ -1823,8 +1823,8 @@ uint8_t max30102_get_adc_resolution(max30102_handle_t *handle, max30102_adc_reso
 
 /**
  * @brief     set the red led pulse amplitude
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] amp is the red led pulse amplitude
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] amp red led pulse amplitude
  * @return    status code
  *            - 0 success
  *            - 1 set led red pulse amplitude failed
@@ -1858,8 +1858,8 @@ uint8_t max30102_set_led_red_pulse_amplitude(max30102_handle_t *handle, uint8_t 
 
 /**
  * @brief      get the red led pulse amplitude
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *amp points to a red led pulse amplitude buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *amp pointer to a red led pulse amplitude buffer
  * @return     status code
  *             - 0 success
  *             - 1 get led red pulse amplitude failed
@@ -1893,8 +1893,8 @@ uint8_t max30102_get_led_red_pulse_amplitude(max30102_handle_t *handle, uint8_t 
 
 /**
  * @brief     set the ir led pulse amplitude
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] amp is the ir led pulse amplitude
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] amp ir led pulse amplitude
  * @return    status code
  *            - 0 success
  *            - 1 set led ir pulse amplitude failed
@@ -1928,8 +1928,8 @@ uint8_t max30102_set_led_ir_pulse_amplitude(max30102_handle_t *handle, uint8_t a
 
 /**
  * @brief      get the ir led pulse amplitude
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *amp points to an ir led pulse amplitude buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *amp pointer to an ir led pulse amplitude buffer
  * @return     status code
  *             - 0 success
  *             - 1 get led ir pulse amplitude failed
@@ -1963,9 +1963,9 @@ uint8_t max30102_get_led_ir_pulse_amplitude(max30102_handle_t *handle, uint8_t *
 
 /**
  * @brief     set the led slot
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] slot is the slot number
- * @param[in] led is the led mode
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] slot slot number
+ * @param[in] led led mode
  * @return    status code
  *            - 0 success
  *            - 1 set slot failed
@@ -2081,9 +2081,9 @@ uint8_t max30102_set_slot(max30102_handle_t *handle, max30102_slot_t slot, max30
 
 /**
  * @brief      get the led slot
- * @param[in]  *handle points to a max30102 handle structure
- * @param[in]  slot is the slot number
- * @param[out] *led points to a led mode buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[in]  slot slot number
+ * @param[out] *led pointer to a led mode buffer
  * @return     status code
  *             - 0 success
  *             - 1 get slot failed
@@ -2167,8 +2167,8 @@ uint8_t max30102_get_slot(max30102_handle_t *handle, max30102_slot_t slot, max30
 
 /**
  * @brief     enable or disable die temperature
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] enable is a bool value
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] enable bool value
  * @return    status code
  *            - 0 success
  *            - 1 set die temperature failed
@@ -2212,8 +2212,8 @@ uint8_t max30102_set_die_temperature(max30102_handle_t *handle, max30102_bool_t 
 
 /**
  * @brief      get the die temperature status
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *enable points to a bool value buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *enable pointer to a bool value buffer
  * @return     status code
  *             - 0 success
  *             - 1 get die temperature failed
@@ -2249,9 +2249,9 @@ uint8_t max30102_get_die_temperature(max30102_handle_t *handle, max30102_bool_t 
 
 /**
  * @brief      get the chip id
- * @param[in]  *handle points to a max30102 handle structure
- * @param[out] *revision_id points to a revision id buffer
- * @param[out] *part_id points to a part id buffer
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[out] *revision_id pointer to a revision id buffer
+ * @param[out] *part_id pointer to a part id buffer
  * @return     status code
  *             - 0 success
  *             - 1 get id failed
@@ -2292,10 +2292,10 @@ uint8_t max30102_get_id(max30102_handle_t *handle, uint8_t *revision_id, uint8_t
 
 /**
  * @brief     set the chip register
- * @param[in] *handle points to a max30102 handle structure
- * @param[in] reg is the iic register address
- * @param[in] *buf points to a data buffer
- * @param[in] len is the data buffer length
+ * @param[in] *handle pointer to a max30102 handle structure
+ * @param[in] reg iic register address
+ * @param[in] *buf pointer to a data buffer
+ * @param[in] len data buffer length
  * @return    status code
  *            - 0 success
  *            - 1 write failed
@@ -2326,10 +2326,10 @@ uint8_t max30102_set_reg(max30102_handle_t *handle, uint8_t reg, uint8_t *buf, u
 
 /**
  * @brief      get the chip register
- * @param[in]  *handle points to a max30102 handle structure
- * @param[in]  reg is the iic register address
- * @param[out] *buf points to a data buffer
- * @param[in]  len is the data buffer length
+ * @param[in]  *handle pointer to a max30102 handle structure
+ * @param[in]  reg iic register address
+ * @param[out] *buf pointer to a data buffer
+ * @param[in]  len data buffer length
  * @return     status code
  *             - 0 success
  *             - 1 read failed
@@ -2360,7 +2360,7 @@ uint8_t max30102_get_reg(max30102_handle_t *handle, uint8_t reg, uint8_t *buf, u
 
 /**
  * @brief      get chip's information
- * @param[out] *info points to a max30102 info structure
+ * @param[out] *info pointer to a max30102 info structure
  * @return     status code
  *             - 0 success
  *             - 2 handle is NULL
