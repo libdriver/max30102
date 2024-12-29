@@ -674,7 +674,7 @@ Functions</h2></td></tr>
 <p>close the chip </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -721,8 +721,8 @@ Functions</h2></td></tr>
 <p>get the adc resolution </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*resolution</td><td>points to an adc resolution buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*resolution</td><td>pointer to an adc resolution buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -768,8 +768,8 @@ Functions</h2></td></tr>
 <p>get the die temperature status </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>points to a bool value buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>pointer to a bool value buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -815,8 +815,8 @@ Functions</h2></td></tr>
 <p>get the fifo almost full value </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*value</td><td>points to a fifo almost full value buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*value</td><td>pointer to a fifo almost full value buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -862,8 +862,8 @@ Functions</h2></td></tr>
 <p>get the fifo data </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*data</td><td>points to a fifo data buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*data</td><td>pointer to a fifo data buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -909,8 +909,8 @@ Functions</h2></td></tr>
 <p>get the fifo overflow counter </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*counter</td><td>points to a counter buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*counter</td><td>pointer to a counter buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -956,8 +956,8 @@ Functions</h2></td></tr>
 <p>get the fifo read pointer </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*pointer</td><td>points to a pointer buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*pointer</td><td>pointer to a pointer buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1003,8 +1003,8 @@ Functions</h2></td></tr>
 <p>get the fifo roll status </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>points to a bool value buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>pointer to a bool value buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1050,8 +1050,8 @@ Functions</h2></td></tr>
 <p>get the fifo sample averaging </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*sample</td><td>points to a fifo sample averaging buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*sample</td><td>pointer to a fifo sample averaging buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1097,8 +1097,8 @@ Functions</h2></td></tr>
 <p>get the fifo write pointer </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*pointer</td><td>points to a pointer buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*pointer</td><td>pointer to a pointer buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1150,9 +1150,9 @@ Functions</h2></td></tr>
 <p>get the chip id </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*revision_id</td><td>points to a revision id buffer </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*part_id</td><td>points to a part id buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*revision_id</td><td>pointer to a revision id buffer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*part_id</td><td>pointer to a part id buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1204,9 +1204,9 @@ Functions</h2></td></tr>
 <p>get the interrupt bool </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>is the interrupt type </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>points to a bool value buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>interrupt type </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>pointer to a bool value buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1258,9 +1258,9 @@ Functions</h2></td></tr>
 <p>get the interrupt status </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">status</td><td>is the interrupt status </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>points to a bool value buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">status</td><td>interrupt status </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>pointer to a bool value buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1306,8 +1306,8 @@ Functions</h2></td></tr>
 <p>get the ir led pulse amplitude </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*amp</td><td>points to an ir led pulse amplitude buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*amp</td><td>pointer to an ir led pulse amplitude buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1353,8 +1353,8 @@ Functions</h2></td></tr>
 <p>get the red led pulse amplitude </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*amp</td><td>points to a red led pulse amplitude buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*amp</td><td>pointer to a red led pulse amplitude buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1400,8 +1400,8 @@ Functions</h2></td></tr>
 <p>get the mode </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*mode</td><td>points to a chip mode buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*mode</td><td>pointer to a chip mode buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1447,8 +1447,8 @@ Functions</h2></td></tr>
 <p>get the shutdown </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>points to a bool value buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*enable</td><td>pointer to a bool value buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1500,9 +1500,9 @@ Functions</h2></td></tr>
 <p>get the led slot </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">slot</td><td>is the slot number </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*led</td><td>points to a led mode buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">slot</td><td>slot number </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*led</td><td>pointer to a led mode buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1548,8 +1548,8 @@ Functions</h2></td></tr>
 <p>get the spo2 adc range </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*range</td><td>points to an spo2 adc range buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*range</td><td>pointer to an spo2 adc range buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1595,8 +1595,8 @@ Functions</h2></td></tr>
 <p>get the spo2 sample rate </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*rate</td><td>points to an spo2 sample rate buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*rate</td><td>pointer to an spo2 sample rate buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1632,7 +1632,7 @@ Functions</h2></td></tr>
 <p>get chip's information </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">*info</td><td>points to a max30102 info structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*info</td><td>pointer to a max30102 info structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -1666,7 +1666,7 @@ Functions</h2></td></tr>
 <p>initialize the chip </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -1705,7 +1705,7 @@ Functions</h2></td></tr>
 <p>irq handler </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -1763,10 +1763,10 @@ Functions</h2></td></tr>
 <p>read the data </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*raw_red</td><td>points to a red raw data buffer </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*raw_ir</td><td>points to an ir raw data buffer </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">*len</td><td>points to a length buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*raw_red</td><td>pointer to a red raw data buffer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*raw_ir</td><td>pointer to an ir raw data buffer </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">*len</td><td>pointer to a length buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1820,9 +1820,9 @@ Functions</h2></td></tr>
 <p>read the temperature </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*raw</td><td>points to a raw data buffer </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">*temp</td><td>points to a converted temperature buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*raw</td><td>pointer to a raw data buffer </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">*temp</td><td>pointer to a converted temperature buffer </td></tr>
   </table>
   </dd>
 </dl>
@@ -1858,7 +1858,7 @@ Functions</h2></td></tr>
 <p>reset the chip </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -1904,8 +1904,8 @@ Functions</h2></td></tr>
 <p>set the adc resolution </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">resolution</td><td>is the adc resolution </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">resolution</td><td>adc resolution </td></tr>
   </table>
   </dd>
 </dl>
@@ -1951,8 +1951,8 @@ Functions</h2></td></tr>
 <p>enable or disable die temperature </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>is a bool value </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>bool value </td></tr>
   </table>
   </dd>
 </dl>
@@ -1998,8 +1998,8 @@ Functions</h2></td></tr>
 <p>set the fifo almost full value </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>is the fifo almost full value </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">value</td><td>fifo almost full value </td></tr>
   </table>
   </dd>
 </dl>
@@ -2046,8 +2046,8 @@ Functions</h2></td></tr>
 <p>set the fifo data </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>is the fifo data </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>fifo data </td></tr>
   </table>
   </dd>
 </dl>
@@ -2093,8 +2093,8 @@ Functions</h2></td></tr>
 <p>set the fifo overflow counter </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">counter</td><td>is the overflow counter </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">counter</td><td>overflow counter </td></tr>
   </table>
   </dd>
 </dl>
@@ -2141,8 +2141,8 @@ Functions</h2></td></tr>
 <p>set the fifo read pointer </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pointer</td><td>is the read pointer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pointer</td><td>read pointer </td></tr>
   </table>
   </dd>
 </dl>
@@ -2189,8 +2189,8 @@ Functions</h2></td></tr>
 <p>enable or disable the fifo roll </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>is a bool value </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>bool value </td></tr>
   </table>
   </dd>
 </dl>
@@ -2236,8 +2236,8 @@ Functions</h2></td></tr>
 <p>set the fifo sample averaging </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">sample</td><td>is the fifo sample averaging </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">sample</td><td>fifo sample averaging </td></tr>
   </table>
   </dd>
 </dl>
@@ -2283,8 +2283,8 @@ Functions</h2></td></tr>
 <p>set the fifo write pointer </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pointer</td><td>is the written pointer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pointer</td><td>written pointer </td></tr>
   </table>
   </dd>
 </dl>
@@ -2337,9 +2337,9 @@ Functions</h2></td></tr>
 <p>set the interrupt bool </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>is the interrupt type </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>is a bool value </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>interrupt type </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>bool value </td></tr>
   </table>
   </dd>
 </dl>
@@ -2385,8 +2385,8 @@ Functions</h2></td></tr>
 <p>set the ir led pulse amplitude </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">amp</td><td>is the ir led pulse amplitude </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">amp</td><td>ir led pulse amplitude </td></tr>
   </table>
   </dd>
 </dl>
@@ -2432,8 +2432,8 @@ Functions</h2></td></tr>
 <p>set the red led pulse amplitude </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">amp</td><td>is the red led pulse amplitude </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">amp</td><td>red led pulse amplitude </td></tr>
   </table>
   </dd>
 </dl>
@@ -2479,8 +2479,8 @@ Functions</h2></td></tr>
 <p>set the mode </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">mode</td><td>is the chip mode </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">mode</td><td>chip mode </td></tr>
   </table>
   </dd>
 </dl>
@@ -2526,8 +2526,8 @@ Functions</h2></td></tr>
 <p>set the shutdown </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>is a bool value </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">enable</td><td>bool value </td></tr>
   </table>
   </dd>
 </dl>
@@ -2579,9 +2579,9 @@ Functions</h2></td></tr>
 <p>set the led slot </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">slot</td><td>is the slot number </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">led</td><td>is the led mode </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">slot</td><td>slot number </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">led</td><td>led mode </td></tr>
   </table>
   </dd>
 </dl>
@@ -2627,8 +2627,8 @@ Functions</h2></td></tr>
 <p>set the spo2 adc range </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">range</td><td>is the spo2 adc range </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">range</td><td>spo2 adc range </td></tr>
   </table>
   </dd>
 </dl>
@@ -2674,8 +2674,8 @@ Functions</h2></td></tr>
 <p>set the spo2 sample rate </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>points to a max30102 handle structure </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">rate</td><td>is the spo2 sample rate </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">*handle</td><td>pointer to a max30102 handle structure </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rate</td><td>spo2 sample rate </td></tr>
   </table>
   </dd>
 </dl>

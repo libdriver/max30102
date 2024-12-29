@@ -82,7 +82,7 @@ uint8_t max30102_fifo_irq_handler(void);
 
 /**
  * @brief     fifo example init
- * @param[in] *fifo_receive_callback points to a fifo receive callback
+ * @param[in] *fifo_receive_callback pointer to a fifo receive callback
  * @return    status code
  *            - 0 success
  *            - 1 init failed
@@ -101,9 +101,9 @@ uint8_t max30102_fifo_deinit(void);
 
 /**
  * @brief         read the data
- * @param[out]    *raw_red points to a read raw data buffer
- * @param[out]    *raw_ir points to a ir raw data buffer
- * @param[in,out] *len points to a length buffer
+ * @param[out]    *raw_red pointer to a read raw data buffer
+ * @param[out]    *raw_ir pointer to a ir raw data buffer
+ * @param[in,out] *len pointer to a length buffer
  * @return        status code
  *                - 0 success
  *                - 1 read failed
