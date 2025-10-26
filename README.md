@@ -10,7 +10,7 @@
 
 The MAX30102 is an integrated pulse oximetry and heart-rate monitor module. It includes internal LEDs, photodetectors, optical elements, and low-noise electronics with ambient light rejection. The MAX30102 provides a complete system solution to ease the design-in process for mobile and wearable devices.The MAX30102 operates on a single 1.8V power supply and a separate 3.3V power supply for the internal LEDs. Communication is through a standard I2C-compatible interface. The module can be shut down through software with zero standby current, allowing the power rails to remain powered at all times.It can be used in wearable devices, fitness assistant devices, smartphones, tablets and so on.
 
-LibDriver MAX30102 is a full-featured driver of MAX30102 launched by LibDriver. It provides fifo reading, id reading and other functions. LibDriver is MISRA compliant.
+LibDriver MAX30102 is a full-featured driver for MAX30102, launched by LibDriver. It provides fifo reading, id reading and additional features. LibDriver is MISRA compliant.
 
 ### Table of Contents
 
