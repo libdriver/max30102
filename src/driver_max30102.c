@@ -365,7 +365,7 @@ uint8_t max30102_irq_handler(max30102_handle_t *handle)
             return 1;                                                                                              /* return error */
         }
         handle->raw = handle->raw | prev1;                                                                         /* set fraction part */
-        handle->temperature = (float)(prev) + (float)(prev1) * 0.0625f;                                            /* set the temperature */
+        handle->temperature = (float)((int8_t)(prev)) + (float)(prev1) * 0.0625f;                                  /* set the temperature */
         handle->finished_flag = 1;                                                                                 /* set flag */
         
         if (handle->receive_callback != NULL)                                                                      /* if receive callback */
@@ -474,7 +474,7 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
     }
     else
     {
-        handle->debug_print("max30105: mode is invalid.\n");                                                      /* mode is invalid */
+        handle->debug_print("max30102: mode is invalid.\n");                                                      /* mode is invalid */
        
         return 5;                                                                                                 /* return error */
     }
