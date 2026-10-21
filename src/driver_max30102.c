@@ -356,7 +356,7 @@ uint8_t max30102_irq_handler(max30102_handle_t *handle)
            
             return 1;                                                                                              /* return error */
         }
-        handle->raw = (uint16_t)prev << 4;                                                                         /* set integer part */
+        handle->raw = (uint16_t)((int16_t)(int8_t)prev << 4);                                                      /* set integer part */
         res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_DIE_TEMP_FRACTION, (uint8_t *)&prev1, 1);            /* read die temp fraction */
         if (res != 0)                                                                                              /* check result */
         {
@@ -364,7 +364,8 @@ uint8_t max30102_irq_handler(max30102_handle_t *handle)
            
             return 1;                                                                                              /* return error */
         }
-        handle->raw = handle->raw | prev1;                                                                         /* set fraction part */
+        prev1 = prev1 & 0x0F;                                                                                      /* get valid part */
+        handle->raw = handle->raw | (uint16_t)prev1;                                                               /* set fraction part */
         handle->temperature = (float)((int8_t)(prev)) + (float)(prev1) * 0.0625f;                                  /* set the temperature */
         handle->finished_flag = 1;                                                                                 /* set flag */
         
@@ -404,6 +405,11 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
     uint8_t bit;
     uint8_t i;
     uint8_t r;
+    uint8_t slot[4];
+    uint8_t ch;
+    uint8_t offset;
+    uint8_t max_n;
+    uint32_t v;
     
     if (handle == NULL)                                                                                           /* check handle */
     {
@@ -443,15 +449,12 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
         return 1;                                                                                                 /* return error */
     }
     
-    if (write_point > read_point)                                                                                 /* check point */
-    {
-        l = write_point - read_point;                                                                             /* get length */
-    }
-    else
-    {
-        l = 32 + write_point - read_point;                                                                        /* get length */
-    }
+    l = (uint8_t)((write_point - read_point) & 0x1F);                                                             /* available samples, modular subtraction with wrap-around (datasheet p16), equal pointers mean empty -> 0 */
     *len = ((*len) > l) ? l : (*len);                                                                             /* set read length */
+    if (*len == 0)                                                                                                /* no sample available */
+    {
+        return r;                                                                                                 /* return overrun flag if set, otherwise success */
+    }
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MODE_CONFIG, (uint8_t *)&prev, 1);                      /* read mode config */
     if (res != 0)                                                                                                 /* check result */
     {
@@ -462,23 +465,61 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
     mode = (max30102_mode_t)(prev & 0x7);                                                                         /* get mode */
     if (mode == MAX30102_MODE_HEART_RATE)                                                                         /* check heart rate mode */
     {
-        k = 3;                                                                                                    /* 3 */
+        k = 3;                                                                                                    /* 3 bytes per sample */
     }
     else if (mode == MAX30102_MODE_SPO2)                                                                          /* check spo2 mode*/
     {
-        k = 6;                                                                                                    /* 6 */
+        k = 6;                                                                                                    /* 6 bytes per sample */
     }
     else if (mode == MAX30102_MODE_MULTI_LED)                                                                     /* check multi led mode */
     {
-        k = 6;                                                                                                    /* 6 */
+        uint8_t mc1;
+        uint8_t mc2;
+        
+        res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_1, (uint8_t *)&mc1, 1);      /* read multi led control 1 */
+        if (res != 0)                                                                                             /* check result */
+        {
+            handle->debug_print("max30102: read multi led control 1 failed.\n");                                  /* read multi led control 1 failed */
+           
+            return 1;                                                                                             /* return error */
+        }
+        res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_MULTI_LED_MODE_CONTROL_2, (uint8_t *)&mc2, 1);      /* read multi led control 2 */
+        if (res != 0)                                                                                             /* check result */
+        {
+            handle->debug_print("max30102: read multi led control 2 failed.\n");                                  /* read multi led control 2 failed */
+           
+            return 1;                                                                                             /* return error */
+        }
+        slot[0] = mc1 & 0x7;                                                                                      /* slot1 is bits[2:0] */
+        slot[1] = (mc1 >> 4) & 0x7;                                                                               /* slot2 is bits[6:4] */
+        slot[2] = mc2 & 0x7;                                                                                      /* slot3 is bits[2:0] */
+        slot[3] = (mc2 >> 4) & 0x7;                                                                               /* slot4 is bits[6:4] */
+        k = 0;                                                                                                    /* clear bytes per sample */
+        for (ch = 0; ch < 4; ch++)                                                                                /* each active slot */
+        {
+            if ((slot[ch] == MAX30102_LED_RED) || (slot[ch] == MAX30102_LED_IR))                                  /* red and ir */
+            {
+                k += 3;                                                                                           /* add */
+            }
+        }
+        if (k == 0)                                                                                               /* no active slot */
+        {
+            handle->debug_print("max30102: multi led slot is invalid.\n");                                        /* multi led slot is invalid */
+            *len = 0;                                                                                             /* nothing read */
+           
+            return 5;                                                                                             /* return error */
+        }
     }
     else
     {
         handle->debug_print("max30102: mode is invalid.\n");                                                      /* mode is invalid */
+        *len = 0;                                                                                                 /* nothing read */
        
         return 5;                                                                                                 /* return error */
     }
     
+    max_n = (uint8_t)(sizeof(handle->buf) / k);                                                                   /* inner buffer holds at most 192/k samples */
+    *len = ((*len) > max_n) ? max_n : (*len);                                                                     /* limit read length to fit the inner buffer */
     res = handle->iic_read(MAX30102_ADDRESS, MAX30102_REG_FIFO_DATA_REGISTER, handle->buf, (*len) * k);           /* read fifo read point */
     if (res != 0)                                                                                                 /* check result */
     {
@@ -513,14 +554,14 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
     
     for (i = 0; i < (*len); i++)                                                                                  /* copy data */
     {
-        if (mode == MAX30102_MODE_HEART_RATE)                                                                     /* check red mode */
+        if (mode == MAX30102_MODE_HEART_RATE)                                                                     /* heart rate mode, red only */
         {
             raw_red[i] = ((uint32_t)handle->buf[i * 3 + 0] << 16) |                                               /* get raw red data */
                          ((uint32_t)handle->buf[i * 3 + 1] << 8) |                                                /* get raw red data */
                          ((uint32_t)handle->buf[i * 3 + 2] << 0);                                                 /* get raw red data */
             raw_red[i] = raw_red[i] >> bit;                                                                       /* right shift bit */
         }
-        else
+        else if (mode == MAX30102_MODE_SPO2)                                                                      /* spo2 mode, red then ir */
         {
             raw_red[i] = ((uint32_t)handle->buf[i * 6 + 0] << 16) |                                               /* get raw red data */
                          ((uint32_t)handle->buf[i * 6 + 1] << 8) |                                                /* get raw red data */
@@ -530,6 +571,32 @@ uint8_t max30102_read(max30102_handle_t *handle, uint32_t *raw_red, uint32_t *ra
                         ((uint32_t)handle->buf[i * 6 + 4] << 8) |                                                 /* get raw ir data */
                         ((uint32_t)handle->buf[i * 6 + 5] << 0);                                                  /* get raw ir data */
             raw_ir[i] = raw_ir[i] >> bit;                                                                         /* right shift bit */
+        }
+        else                                                                                                      /* multi-led mode, parse active slots in order */
+        {
+            offset = 0;                                                                                           /* start at the first byte of the sample */
+            for (ch = 0; ch < 4; ch++)                                                                            /* walk the four slots */
+            {
+                if ((slot[ch] != MAX30102_LED_RED) && (slot[ch] != MAX30102_LED_IR))                              /* check red and ir */
+                {
+                    continue;                                                                                     /* disabled slot produces no data */
+                }
+                
+                v = ((uint32_t)handle->buf[i * k + offset + 0] << 16) |                                           /* get one channel data */
+                    ((uint32_t)handle->buf[i * k + offset + 1] << 8) |
+                    ((uint32_t)handle->buf[i * k + offset + 2] << 0);
+                v = v >> bit;                                                                                     /* right shift bit */
+                
+                if (slot[ch] == MAX30102_LED_RED)                                                                 /* store by the slot's led coding */
+                {
+                    raw_red[i] = v;                                                                               /* set red */
+                }
+                else
+                {
+                    raw_ir[i] = v;                                                                                /* set ir */
+                }
+                offset += 3;                                                                                      /* next active channel */
+            }
         }
     }
     
